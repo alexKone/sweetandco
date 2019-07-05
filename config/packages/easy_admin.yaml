@@ -1,0 +1,96 @@
+easy_admin:
+#    entities:
+#        # List the entity class name you want to manage
+#        - App\Entity\Salade
+#        - App\Entity\Base
+#        - App\Entity\Ingredient
+#        - App\Entity\Sauce
+    site_name: 'Sweet & CO.'
+    entities:
+        Formule:
+            class: App\Entity\Formule
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'short_description' }
+                    - { property: 'limit_base' }
+                    - { property: 'limit_ingredient' }
+                    - { property: 'limit_sauce' }
+                    - { property: 'has_bagel' }
+                    - { property: 'has_panini' }
+
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'short_description' }
+                    - { property: 'limit_base' }
+                    - { property: 'limit_ingredient' }
+                    - { property: 'limit_sauce' }
+                    - { property: 'has_bagel' }
+                    - { property: 'has_panini' }
+
+        Base:
+            class: App\Entity\Base
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'is_active' }
+                    - { property: 'name' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+            form:
+                fields:
+#                    - { property: 'id' }
+                    - { property: 'name' }
+#                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%'}
+                    - { property: 'imageFile', type: 'vich_image' }
+
+        Ingredient:
+            class: App\Entity\Ingredient
+            form:
+                fields:
+#                    - { property: 'id' }
+                    - { property: 'name' }
+
+        Sauce:
+            class: App\Entity\Sauce
+            form:
+                fields:
+#                    - { property: 'id' }
+                    - { property: 'name' }
+
+        Category:
+            class: App\Entity\Category
+            form:
+                fields:
+#                    - { property: 'id' }
+                    - { property: 'name' }
+#                    - { property: 'slug' }
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name' }
+                    - { property: 'slug' }
+
+        Product:
+            class: App\Entity\Product
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'short_description' }
+                    - { property: 'price' }
+                    - { property: 'is_active' }
+                    - { property: 'category' }
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'short_description' }
+                    - { property: 'price' }
+                    - { property: 'is_active' }
+                    - { property: 'slug' }
+                    - { property: 'category' }

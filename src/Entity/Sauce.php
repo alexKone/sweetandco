@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(normalizationContext={"groups"={"sauce"}})
  * @ORM\Entity(repositoryClass="App\Repository\SauceRepository")
  */
 class Sauce
 {
     /**
+     * @Groups({"sauce"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,6 +23,7 @@ class Sauce
     private $id;
 
     /**
+     * @Groups({"sauce", "salade"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -32,6 +37,10 @@ class Sauce
     {
         $this->salades = new ArrayCollection();
     }
+
+	public function __toString(  ) {
+		return $this->name;
+	}
 
     public function getId(): ?int
     {

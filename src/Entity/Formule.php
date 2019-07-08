@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"formule"}})
  * @ORM\Entity(repositoryClass="App\Repository\FormuleRepository")
  */
 class Formule
@@ -15,63 +16,79 @@ class Formule
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"formule"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"formule"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"formule"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"formule"})
      */
     private $short_description;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"formule"})
      */
     private $limit_base = 1;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"formule"})
      */
     private $limit_ingredient = 4;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"formule"})
      */
     private $limit_sauce = 1;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"formule"})
      */
     private $has_bagel = false;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"formule"})
      */
     private $has_panini = false;
 
 	/**
 	 * @var
 	 * @ORM\Column(type="datetime")
+	 * @Groups({"formule"})
 	 */
     private $createdAt;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups({"formule"})
+     */
+    private $price;
 
     public function __construct() {
         $this->createdAt = new \DateTime();
     }
 
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+             {
+                 return $this->id;
+             }
 
     public function getName(): ?string
     {
@@ -177,6 +194,18 @@ class Formule
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -7,7 +7,6 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -47,11 +46,12 @@ class Category
     {
         $this->products = new ArrayCollection();
 	    $slugify = new Slugify();
-	    $this->slug = $slugify->slugify($this->name . $this->id);    }
+	    $this->slug = $slugify->slugify($this->name . $this->id);
+    }
 
 	public function __toString() {
-		return $this->getName();
-	}
+               		return $this->getName();
+               	}
 
     public function getId(): ?int
     {
@@ -115,9 +115,6 @@ class Category
 	 */
 	public function setSlug( $slug ) {
 		$this->slug = $slug;
-
 		return $this;
 	}
-
-
 }

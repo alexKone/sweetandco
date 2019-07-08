@@ -14,10 +14,12 @@ class HomepageController extends AbstractController
 	 * @Route("/", name="homepage")
 	 */
 	public function index(  ) {
-		$salade = new Salade();
-		$form = $this->createForm(SaladeType::class, $salade);
-		return $this->render('pages/home.html.twig', [
-			'form' => $form->createView()
-		]);
+		return $this->render('pages/home.html.twig');
 	}
+//		$salade = new Salade();
+//		$form = $this->createForm(SaladeType::class, $salade);
+//		return $this->render('pages/home.html.twig', [
+//			'form' => $form->createView()
+//		]);
+//	}
 }

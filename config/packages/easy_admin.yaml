@@ -15,6 +15,7 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'description' }
                     - { property: 'short_description' }
+                    - { property: 'price' }
                     - { property: 'limit_base' }
                     - { property: 'limit_ingredient' }
                     - { property: 'limit_sauce' }
@@ -26,6 +27,7 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'description' }
                     - { property: 'short_description' }
+                    - { property: 'price' }
                     - { property: 'limit_base' }
                     - { property: 'limit_ingredient' }
                     - { property: 'limit_sauce' }
@@ -49,10 +51,18 @@ easy_admin:
 
         Ingredient:
             class: App\Entity\Ingredient
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name' }
+                    - { property: 'subCategory' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
             form:
                 fields:
 #                    - { property: 'id' }
                     - { property: 'name' }
+                    - { property: 'subCategory' }
+                    - { property: 'imageFile', type: 'vich_image' }
 
         Sauce:
             class: App\Entity\Sauce
@@ -94,3 +104,6 @@ easy_admin:
                     - { property: 'is_active' }
                     - { property: 'slug' }
                     - { property: 'category' }
+
+        SubCategory:
+            class: App\Entity\SubCategory

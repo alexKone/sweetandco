@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <h1>{{ category.name }}</h1>
+  {% if category.products %}
+    {% for product in category.products %}
+      <div>{{ product.name }}</div>
+    {% endfor %}
+  {% else %}
+    <div>pas de produits</div>
+  {% endif %}
+
+{% endblock %}

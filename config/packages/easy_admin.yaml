@@ -12,6 +12,7 @@ easy_admin:
             list:
                 fields:
                     - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
                     - { property: 'name' }
                     - { property: 'description' }
                     - { property: 'short_description' }
@@ -33,6 +34,8 @@ easy_admin:
                     - { property: 'limit_sauce' }
                     - { property: 'has_bagel' }
                     - { property: 'has_panini' }
+                    - { property: 'imageFile', type: 'vich_image' }
+
 
         Base:
             class: App\Entity\Base
@@ -66,10 +69,16 @@ easy_admin:
 
         Sauce:
             class: App\Entity\Sauce
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
             form:
                 fields:
 #                    - { property: 'id' }
                     - { property: 'name' }
+                    - { property: 'imageFile', type: 'vich_image' }
 
         Category:
             class: App\Entity\Category
@@ -77,12 +86,14 @@ easy_admin:
                 fields:
 #                    - { property: 'id' }
                     - { property: 'name' }
+                    - { property: 'products' }
 #                    - { property: 'slug' }
             list:
                 fields:
                     - { property: 'id' }
                     - { property: 'name' }
                     - { property: 'slug' }
+                    - { property: 'products' }
 
         Product:
             class: App\Entity\Product

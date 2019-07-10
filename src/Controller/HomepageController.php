@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Formule;
 use App\Entity\Salade;
 use App\Form\SaladeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,12 +16,13 @@ class HomepageController extends AbstractController
 	 * @Route("/", name="homepage")
 	 */
 	public function index(  ) {
-		return $this->render('pages/home.html.twig');
+		$formules = $this->getDoctrine()->getRepository(Formule::class)->findAll();
+		$categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+//		dump($categories);
+//		die();
+		return $this->render('pages/home/index.html.twig', [
+			'formules' => $formules,
+			'categories' => $categories
+		]);
 	}
-//		$salade = new Salade();
-//		$form = $this->createForm(SaladeType::class, $salade);
-//		return $this->render('pages/home.html.twig', [
-//			'form' => $form->createView()
-//		]);
-//	}
 }

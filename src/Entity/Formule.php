@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"formule"}})
@@ -69,11 +72,31 @@ class Formule
     private $has_panini = false;
 
 	/**
+	 * @var string|null
+	 * @Groups({"formule"})
+	 * @ORM\Column(type="string", length=255, nullable=true, name="formule_filename")
+	 */
+    private $formuleFilename;
+
+	/**
+	 * @var File|null
+	 * @Vich\UploadableField(mapping="products", fileNameProperty="formuleFilename")
+	 */
+    private $imageFile;
+
+	/**
 	 * @var
 	 * @ORM\Column(type="datetime")
 	 * @Groups({"formule"})
 	 */
     private $createdAt;
+
+	/**
+	 * @var
+	 * @ORM\Column(type="datetime", nullable=true)
+	 * @Groups({"formule"})
+	 */
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="float")
@@ -82,7 +105,7 @@ class Formule
     private $price;
 
     public function __construct() {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
 	public function getId(): ?int
@@ -186,7 +209,64 @@ class Formule
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+
+	/**
+	 * @return string|null
+	 */
+	public function getFormuleFilename(): ?string {
+		return $this->formuleFilename;
+	}
+
+	/**
+	 * @param string|null $filename
+	 *
+	 * @return Formule
+	 */
+	public function setFormuleFilename( ?string $filename ) {
+		$this->formuleFilename = $filename;
+
+		return $this;
+	}
+
+	/**
+	 * @return File|null
+	 */
+	public function getImageFile(): ?File {
+		return $this->imageFile;
+	}
+
+	/**
+	 * @param File|null $imageFile
+	 *
+	 * @return void
+	 * @throws \Exception
+	 */
+	public function setImageFile( ?File $imageFile = null ): void {
+		$this->imageFile = $imageFile;
+		if ($imageFile) {
+			$this->updatedAt = new \DateTime('now');
+		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param mixed $updatedAt
+	 *
+	 * @return Formule
+	 */
+	public function setUpdatedAt( $updatedAt ) {
+		$this->updatedAt = $updatedAt;
+
+		return $this;
+	}
+
+	public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }

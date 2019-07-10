@@ -127,7 +127,7 @@ class Ingredient
 	/**
 	 * @param string|null $filename
 	 *
-	 * @return Base
+	 * @return Ingredient
 	 */
 	public function setFilename( ?string $filename ) {
 		$this->filename = $filename;
@@ -145,7 +145,7 @@ class Ingredient
 	/**
 	 * @param File|null $imageFile
 	 *
-	 * @return Base
+	 * @return Ingredient
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile = null ): void {
@@ -165,7 +165,7 @@ class Ingredient
 	/**
 	 * @param mixed $updatedAt
 	 *
-	 * @return Base
+	 * @return Ingredient
 	 */
 	public function setUpdatedAt( $updatedAt ) {
 		$this->updatedAt = $updatedAt;

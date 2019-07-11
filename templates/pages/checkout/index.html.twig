@@ -2,6 +2,7 @@
 {% block body %}
   <h1>checkout page</h1>
   {{ dump(app.user) }}
+  {{ dump(app.session.get('items')) }}
   <form>
     <label>
       <input type="text" name="username" placeholder="username" />

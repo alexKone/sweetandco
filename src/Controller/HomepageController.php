@@ -8,6 +8,9 @@ use App\Entity\Salade;
 use App\Form\SaladeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomepageController extends AbstractController
@@ -16,6 +19,8 @@ class HomepageController extends AbstractController
 	 * @Route("/", name="homepage")
 	 */
 	public function index(  ) {
+//		$session = new Session(new NativeSessionStorage(), new AttributeBag());
+//		$session->clear();
 		$formules = $this->getDoctrine()->getRepository(Formule::class)->findAll();
 		$categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
 //		dump($categories);

@@ -40,7 +40,7 @@
     <span class="cart-button">
       <i class="material-icons">shopping_cart</i>
       {#<img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width: 24px;" />#}
-      <span class="cart-count">2</span>
+      <span class="cart-count">{{ app.session.get('items')|length }}</span>
     </span>
   </div>
 </header>

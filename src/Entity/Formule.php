@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"formule"}})
@@ -104,14 +105,22 @@ class Formule
      */
     private $price;
 
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $slug;
+
+
+
     public function __construct() {
         $this->createdAt = new DateTime();
     }
 
 	public function getId(): ?int
-             {
-                 return $this->id;
-             }
+                      {
+                          return $this->id;
+                      }
 
     public function getName(): ?string
     {
@@ -214,8 +223,8 @@ class Formule
 	 * @return string|null
 	 */
 	public function getFormuleFilename(): ?string {
-		return $this->formuleFilename;
-	}
+         		return $this->formuleFilename;
+         	}
 
 	/**
 	 * @param string|null $filename
@@ -223,17 +232,17 @@ class Formule
 	 * @return Formule
 	 */
 	public function setFormuleFilename( ?string $filename ) {
-		$this->formuleFilename = $filename;
+         		$this->formuleFilename = $filename;
 
-		return $this;
-	}
+         		return $this;
+         	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-		return $this->imageFile;
-	}
+         		return $this->imageFile;
+         	}
 
 	/**
 	 * @param File|null $imageFile
@@ -242,18 +251,18 @@ class Formule
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile = null ): void {
-		$this->imageFile = $imageFile;
-		if ($imageFile) {
-			$this->updatedAt = new \DateTime('now');
-		}
-	}
+         		$this->imageFile = $imageFile;
+         		if ($imageFile) {
+         			$this->updatedAt = new \DateTime('now');
+         		}
+         	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getUpdatedAt() {
-		return $this->updatedAt;
-	}
+         		return $this->updatedAt;
+         	}
 
 	/**
 	 * @param mixed $updatedAt
@@ -261,15 +270,15 @@ class Formule
 	 * @return Formule
 	 */
 	public function setUpdatedAt( $updatedAt ) {
-		$this->updatedAt = $updatedAt;
+         		$this->updatedAt = $updatedAt;
 
-		return $this;
-	}
+         		return $this;
+         	}
 
 	public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
+             {
+                 return $this->createdAt;
+             }
 
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
@@ -286,6 +295,18 @@ class Formule
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

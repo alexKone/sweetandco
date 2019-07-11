@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"category"}})
@@ -30,8 +31,9 @@ class Category
     private $name;
 
 	/**
-	 * @var
-	 * @ORM\Column(type="string", nullable=true)
+	 * @var string
+	 * @Gedmo\Slug(fields={"name"})
+	 * @ORM\Column(type="string", nullable=false)
 	 * @Groups({"category"})
 	 */
     private $slug;
@@ -45,8 +47,8 @@ class Category
     public function __construct()
     {
         $this->products = new ArrayCollection();
-	    $slugify = new Slugify();
-	    $this->slug = $slugify->slugify($this->name . $this->id);
+//	    $slugify = new Slugify();
+//	    $this->slug = $slugify->slugify($this->name . $this->id);
     }
 
 	public function __toString() {

@@ -38,10 +38,7 @@ class FormulesController extends AbstractController
 				array_push($ingredients, $datas[$ingredient_key]);
 			}
 			$session = new Session(new NativeSessionStorage(), new AttributeBag());
-//			$session->start();
-//			$items = $session->all();
-//			dump($items);
-//			die();
+
 			$item = [
 				'formule_' . $id => [
 					'base' => $base,
@@ -49,7 +46,20 @@ class FormulesController extends AbstractController
 					'sauce' => $sauce
 				]
 			];
-			$session->set('items', $item);
+
+			if (!empty($session->get('items'))) {
+				$data = $session->get('items');
+				array_push($data, $item);
+				$session->set('items', $data);
+			} else {
+				$newArr = [];
+//				$sessionItem = $session->get('items');
+				array_push($newArr, $item);
+				$session->set('items', $newArr);
+//				dump($session->get('items'), $newArr);
+//				die();
+			}
+
 			return $this->redirectToRoute('checkout');
 		}
 		$formule = $this->getDoctrine()

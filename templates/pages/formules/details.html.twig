@@ -2,21 +2,23 @@
 
 {% block body %}
   {% if formule %}
-    <h1>{{ formule.name }}</h1>
+    <h1 class="center-align">{{ formule.name }}</h1>
     <input type="hidden" name="id[]" value="{{ formule.price }}" />
     <input type="hidden" name="details" data-ingredients="{{ formule.limitIngredient }}">
 
 
-    <form method="post">
+    <form class="container" method="post">
+
       <section class="bases">
         <h3>Les bases</h3>
 
         <div class="row">
-          {% for base in bases %}
-          <li class="col s6">
+          {% for base in bases|sortByField('name') %}
+          <li class="item col s6 m4 l3">
             <label>
               <img class="img-list" src="{{ vich_uploader_asset(base, 'imageFile') }}" alt="">
               <input id="_base_{{ base.id }}" type="radio" value="{{ base.id }}" name="base" required>
+              <span>{{ base.name }}</span>
             </label>
             {#<label for="_base_{{ base.id }}">{{ base.name }}</label>#}
           </li>
@@ -25,28 +27,52 @@
       </section>
 
       <section class="ingredients">
-        <h3>Les ingredients</h3>
-        {% for ingredient in ingredients %}
-          <li>
-            <label>
-              <img src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="">
-              <input id="_ingredient_{{ ingredient.id }}" type="checkbox" name="ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />
-              <span>{{ ingredient.name }}</span>
-            </label>
-            {#<label for="_ingredient_{{ ingredient.id }}">{{ ingredient.name }}</label>#}
-          </li>
-        {% endfor %}
+        <h3>Les ingredients <span class="anot">({{ formule.limitIngredient }} au choix)</span></h3>
+        <div class="row">
+
+          {% if subCategory %}
+            {% for sub in subCategory %}
+              {% if sub.ingredients|length > 0 %}
+                <h5>{{ sub.name }}</h5>
+                <ul class="row">
+                  {% for ingredient in sub.ingredients|sortByField('name') %}
+                    <li class="item col s6 m4 l3">
+                      <label class="checkbox">
+                        <img src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="">
+                        <input id="_ingredient_{{ ingredient.id }}" type="checkbox" name="ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />
+                        <span>{{ ingredient.name }}</span>
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+          {#{% for ingredient in ingredients|sortByField('name') %}#}
+            {#<li class="col s6 m4 l3">#}
+              {#<label class="checkbox">#}
+                {#<img src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="">#}
+                {#<input id="_ingredient_{{ ingredient.id }}" type="checkbox" name="ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />#}
+                {#<span>{{ ingredient.name }}</span>#}
+              {#</label>#}
+              {#<label for="_ingredient_{{ ingredient.id }}">{{ ingredient.name }}</label>#}
+            {#</li>#}
+          {#{% endfor %}#}
+        </div>
       </section>
+
 
       <section class="bases">
         <h3>Les Sauces</h3>
 
         <div class="row">
-          {% for sauce in sauces %}
-            <li class="col s6">
+          {% for sauce in sauces|sortByField('name') %}
+            <li class="item col s6 m4 l3">
               <label>
                 <img class="img-list" src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">
                 <input id="_sauce_{{ sauce.id }}" type="radio" value="{{ sauce.id }}" name="sauce" required>
+                <span>{{ sauce.name }}</span>
               </label>
               {#<label for="_base_{{ base.id }}">{{ base.name }}</label>#}
             </li>
@@ -54,27 +80,27 @@
         </div>
       </section>
 
-        {#{% for sauce in sauces %}#}
-          {##}
-          {##}
-          {##}
-          {#<li>#}
-            {#<img src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">#}
-            {#<input id="_sauce_{{ formule.id }}" type="radio" value="{{ sauce.id }}" name="sauce" required>#}
-            {#<label for="_sauce_{{ formule.id }}">{{ sauce.name }}</label>#}
-          {#</li>#}
-        {#{% endfor %}#}
-      </section>
 
     {% if formule.hasBagel %}
       <section class="bagels">
         <h3>les bagels</h3>
+        {% for bagel in bagels %}
+          <li>
+            <span>{{ bagel.name }}</span>
+            <p>{{ bagel.shortDescription }}</p>
+          </li>
+        {% endfor %}
       </section>
     {% endif %}
     {% if formule.hasPanini %}
       <section class="paninis">
         <h3>les paninis</h3>
       </section>
+    {% endif %}
+    {% if formule.hasBoisson %}
+        <span>boisson incluse</span>
+      {% endif %}
+    {% if formule.hasDessert %}
     {% endif %}
 
 

@@ -7,35 +7,6 @@ easy_admin:
 #        - App\Entity\Sauce
     site_name: 'Sweet & CO.'
     entities:
-        Formule:
-            class: App\Entity\Formule
-            list:
-                fields:
-                    - { property: 'id' }
-                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
-                    - { property: 'name' }
-                    - { property: 'description' }
-                    - { property: 'short_description' }
-                    - { property: 'price' }
-                    - { property: 'limit_base' }
-                    - { property: 'limit_ingredient' }
-                    - { property: 'limit_sauce' }
-                    - { property: 'has_bagel' }
-                    - { property: 'has_panini' }
-
-            form:
-                fields:
-                    - { property: 'name' }
-                    - { property: 'description' }
-                    - { property: 'short_description' }
-                    - { property: 'price' }
-                    - { property: 'limit_base' }
-                    - { property: 'limit_ingredient' }
-                    - { property: 'limit_sauce' }
-                    - { property: 'has_bagel' }
-                    - { property: 'has_panini' }
-                    - { property: 'imageFile', type: 'vich_image' }
-
 
         Base:
             class: App\Entity\Base
@@ -86,11 +57,12 @@ easy_admin:
                 fields:
 #                    - { property: 'id' }
                     - { property: 'name' }
+                    - { property: 'position' }
                     - { property: 'products' }
-#                    - { property: 'slug' }
             list:
                 fields:
                     - { property: 'id' }
+                    - { property: 'position' }
                     - { property: 'name' }
                     - { property: 'slug' }
                     - { property: 'products' }
@@ -105,9 +77,11 @@ easy_admin:
                     - { property: 'price' }
                     - { property: 'is_active' }
                     - { property: 'category' }
+                    - { property: 'imageFile', type: 'vich_image' }
             list:
                 fields:
                     - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
                     - { property: 'name' }
                     - { property: 'description' }
                     - { property: 'short_description' }
@@ -118,3 +92,16 @@ easy_admin:
 
         SubCategory:
             class: App\Entity\SubCategory
+
+        Bagels:
+            class: App\Entity\Bagel
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'short_description' }
+                    - { property: 'imageFile', type: 'vich_image' }
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'name' }

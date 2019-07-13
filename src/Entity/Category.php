@@ -32,11 +32,17 @@ class Category
 
 	/**
 	 * @var string
-	 * @Gedmo\Slug(fields={"name"})
+	 * @Gedmo\Slug(fields={"name", "id"})
 	 * @ORM\Column(type="string", nullable=false)
 	 * @Groups({"category"})
 	 */
     private $slug;
+
+	/**
+	 * @var int
+	 * @ORM\Column(type="smallint")
+	 */
+    private $position;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
@@ -52,8 +58,8 @@ class Category
     }
 
 	public function __toString() {
-               		return $this->getName();
-               	}
+                     		return $this->getName();
+                     	}
 
     public function getId(): ?int
     {
@@ -107,8 +113,8 @@ class Category
 	 * @return mixed
 	 */
 	public function getSlug() {
-		return $this->slug;
-	}
+      		return $this->slug;
+      	}
 
 	/**
 	 * @param mixed $slug
@@ -116,7 +122,19 @@ class Category
 	 * @return Category
 	 */
 	public function setSlug( $slug ) {
-		$this->slug = $slug;
-		return $this;
-	}
+      		$this->slug = $slug;
+      		return $this;
+      	}
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
 }

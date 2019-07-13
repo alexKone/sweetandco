@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Bagel;
 use App\Entity\Base;
+use App\Entity\Category;
 use App\Entity\Formule;
 use App\Entity\Ingredient;
+use App\Entity\Salade;
 use App\Entity\Sauce;
+use App\Entity\SubCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
@@ -17,6 +21,10 @@ class FormulesController extends AbstractController
 {
 	/**
 	 * @Route("/formules/{id}", methods={"get","post"})
+	 * @param Request $request
+	 * @param $id
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function details( Request $request, $id ) {
 		if ($request->getMethod() == 'POST') {
@@ -38,29 +46,42 @@ class FormulesController extends AbstractController
 				array_push($ingredients, $datas[$ingredient_key]);
 			}
 			$session = new Session(new NativeSessionStorage(), new AttributeBag());
+			$formule = $this->getDoctrine()->getRepository(Formule::class)->find($id);
 
 			$item = [
-				'formule_' . $id => [
-					'base' => $base,
-					'ingredients' => $ingredients,
-					'sauce' => $sauce
-				]
+				'name' => 'formule',
+				'item_name' => $formule->getName(),
+				'id' => $id,
+				'base' => $base,
+				'ingredients' => $ingredients,
+				'sauce' => $sauce,
+				'price' => $formule->getPrice()
 			];
+			$newSalade = new Salade();
+			$newSalade->setBase($this->getDoctrine()->getRepository(Base::class)->find($datas['base']));
+			$newSalade->setSauce($this->getDoctrine()->getRepository(Sauce::class)->find($datas['sauce']));
 
-			if (!empty($session->get('items'))) {
-				$data = $session->get('items');
-				array_push($data, $item);
-				$session->set('items', $data);
-			} else {
-				$newArr = [];
-//				$sessionItem = $session->get('items');
-				array_push($newArr, $item);
-				$session->set('items', $newArr);
-//				dump($session->get('items'), $newArr);
-//				die();
+			foreach ($ingredients as $ingredient) {
+				$newSalade->addIngredient($this->getDoctrine()->getRepository(Ingredient::class)->find($ingredient));
 			}
 
-			return $this->redirectToRoute('checkout');
+			dump($newSalade);
+			die();
+//
+//			if (!empty($session->get('items'))) {
+//				$data = $session->get('items');
+//				array_push($data, $item);
+//				$session->set('items', $data);
+//			} else {
+//				$newArr = [];
+////				$sessionItem = $session->get('items');
+//				array_push($newArr, $item);
+//				$session->set('items', $newArr);
+////				dump($session->get('items'), $newArr);
+////				die();
+//			}
+//
+//			return $this->redirectToRoute('checkout');
 		}
 		$formule = $this->getDoctrine()
 		                ->getRepository(Formule::class)
@@ -80,6 +101,10 @@ class FormulesController extends AbstractController
 			'bases' => $bases,
 			'ingredients' => $ingredients,
 			'sauces' => $sauces,
+			'bagels' => $this->getDoctrine()->getRepository(Bagel::class)->findAll(),
+			'subCategory' => $this->getDoctrine()->getRepository(SubCategory::class)->findAll(),
+			'boissons' => $this->getDoctrine()->getRepository(Category::class)->findOneBySlug('les-boissons'),
+			'desserts' => $this->getDoctrine()->getRepository(Category::class)->findOneBySlug('les-desserts'),
 		]);
 	}
 

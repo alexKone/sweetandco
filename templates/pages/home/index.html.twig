@@ -1,36 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <section class=" wrapper homepage">
+  <section class="container wrapper homepage">
     <section class="homepage__formules">
       <h3>Les formules</h3>
       {% if formules %}
       <div class="row">
         {% for formule in formules %}
-          <aside class="col s6">
+          <div class="item col s6 m4">
             <a href="/formules/{{ formule.id }}"></a>
-            <span>{{ formule.name }}</span>
-          </aside>
+            <div class="product__image">
+              <img src="http://lorempixel.com/400/200" alt="">
+            </div>
+            <div class="product__info">
+              <div class="name">{{ formule.name }}</div>
+              <div class="price">{{ formule.price|number_format(2) }}</div>
+            </div>
+          </div>
         {% endfor %}
       </div>
       {% endif %}
     </section>
 
-    <section class="homepage__bagels">
-      <h3>Les bagels</h3>
-    </section>
+    {% if categories %}
+      {% for category in categories %}
+        <section class="homepage__{{ category.slug }}">
+          <h3>{{ category.name }}</h3>
+          <div class="row">
+            {% for product in category.products %}
+              <aside class="item col s6 m4">
+                <a href="/category/{{ category.slug }}/{{ product.id }}"></a>
+                <span>{{ product.name }}</span>
+              </aside>
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+    {% endif %}
 
-    <section class="homepage__paninis">
-      <h3>Les paninis</h3>
-    </section>
+    {#<section class="homepage__bagels">#}
+      {#<h3>Les bagels</h3>#}
+    {#</section>#}
 
-    <section class="homepage__boissons">
-      <h3>Les boissons</h3>
-    </section>
+    {#<section class="homepage__paninis">#}
+      {#<h3>Les paninis</h3>#}
+    {#</section>#}
 
-    <section class="homepage__desserts">
-      <h3>Les desserts</h3>
-    </section>
+    {#<section class="homepage__boissons">#}
+      {#<h3>Les boissons</h3>#}
+    {#</section>#}
+
+    {#<section class="homepage__desserts">#}
+      {#<h3>Les desserts</h3>#}
+    {#</section>#}
 
   </section>
 {% endblock %}

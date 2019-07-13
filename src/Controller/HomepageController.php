@@ -23,6 +23,9 @@ class HomepageController extends AbstractController
 //		$session->clear();
 		$formules = $this->getDoctrine()->getRepository(Formule::class)->findAll();
 		$categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+		$bagels = $this->getDoctrine()->getRepository(Category::class)->findOneBySlug('les-bagels');
+		$paninis = $this->getDoctrine()->getRepository(Category::class)->findOneBySlug('les-paninis');
+
 //		dump($categories);
 //		die();
 		return $this->render('pages/home/index.html.twig', [

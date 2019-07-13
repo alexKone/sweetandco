@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Price;
+use App\Entity\Panini;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Price|null find($id, $lockMode = null, $lockVersion = null)
- * @method Price|null findOneBy(array $criteria, array $orderBy = null)
- * @method Price[]    findAll()
- * @method Price[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Panini|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Panini|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Panini[]    findAll()
+ * @method Panini[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PriceRepository extends ServiceEntityRepository
+class PaniniRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Price::class);
+        parent::__construct($registry, Panini::class);
     }
 
     // /**
-    //  * @return Price[] Returns an array of Price objects
+    //  * @return Panini[] Returns an array of Panini objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PriceRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Price
+    public function findOneBySomeField($value): ?Panini
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

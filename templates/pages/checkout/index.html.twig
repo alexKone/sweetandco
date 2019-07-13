@@ -3,12 +3,33 @@
   <h1>checkout page</h1>
   {{ dump(app.user) }}
   {{ dump(app.session.get('items')) }}
-  <form>
-    <label>
-      <input type="text" name="username" placeholder="username" />
-    </label>
-    <label>
-      <input type="password" name="password" placeholder="password" />
-    </label>
-  </form>
+
+  {% if app.session.get('items') %}
+    {% for item in app.session.get('items') %}
+      {{ dump(item) }}
+      {% if item.name is same as ('formule') %}
+        <li>1 x {{ item.item_name }} - {{ item.price }}€</li>
+      {% else %}
+        <li>{{ item.quantity }} x {{ item.name }}</li>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  <input type="text" class="datepicker">
+
+  {#<form>#}
+    {#<label>#}
+      {#<input type="text" name="username" placeholder="username" />#}
+    {#</label>#}
+    {#<label>#}
+      {#<input type="password" name="password" placeholder="password" />#}
+    {#</label>#}
+  {#</form>#}
+
+  <a href="{{ path('order') }}">Order</a>
+
+  {#<form method="post" action="{{ path('order') }}">#}
+    {#<button type="submit">valider panier</button>#}
+  {#</form>#}
+
 {% endblock %}

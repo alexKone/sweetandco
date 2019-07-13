@@ -4,12 +4,17 @@ namespace App\Entity;
 
 use App\Service\Handler;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @Vich\Uploadable()
  */
 class Product
 {
@@ -63,16 +68,46 @@ class Product
 	 */
     private $slug;
 
+	/**
+	 * @Groups({"base", "salade"})
+	 * @var string|null
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	private $filename;
+
+	/**
+	 * @var File|null
+	 * @Vich\UploadableField(mapping="products", fileNameProperty="filename")
+	 */
+	private $imageFile;
+
+	/**
+	 * @var
+	 * @ORM\Column(type="datetime", nullable=true)
+	 * @Groups({"base"})
+	 */
+	private $updatedAt;
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"category"})
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $stock_qty;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Order", mappedBy="products")
+     */
+    private $orders;
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $slugify = new Slugify();
 	    $this->slug = $slugify->slugify($this->name . $this->id);
+     $this->orders = new ArrayCollection();
     }
 
     public function __toString() {
@@ -80,9 +115,9 @@ class Product
     }
 
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+                                  {
+                                      return $this->id;
+                                  }
 
     public function getName(): ?string
     {
@@ -172,8 +207,8 @@ class Product
 	 * @return mixed
 	 */
 	public function getSlug() {
-		return $this->slug;
-	}
+                              		return $this->slug;
+                              	}
 
 	/**
 	 * @param mixed $slug
@@ -181,11 +216,105 @@ class Product
 	 * @return Product
 	 */
 	public function setSlug( $slug ) {
-		$this->slug = $slug;
+                              		$this->slug = $slug;
+                              
+                              		return $this;
+                              	}
 
-		return $this;
-	}
+	/**
+	 * @return string|null
+	 */
+	public function getFilename(): ?string {
+                              		return $this->filename;
+                              	}
 
+	/**
+	 * @param string|null $filename
+	 *
+	 * @return Base
+	 */
+	public function setFilename( ?string $filename ) {
+                              		$this->filename = $filename;
+                              
+                              		return $this;
+                              	}
 
+	/**
+	 * @return File|null
+	 */
+	public function getImageFile(): ?File {
+                              		return $this->imageFile;
+                              	}
+
+	/**
+	 * @param File|null $imageFile
+	 *
+	 * @return Base
+	 * @throws \Exception
+	 */
+	public function setImageFile( ?File $imageFile = null ): void {
+                              		$this->imageFile = $imageFile;
+                              		if ($imageFile) {
+                              			$this->updatedAt = new \DateTime('now');
+                              		}
+                              	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getUpdatedAt() {
+                              		return $this->updatedAt;
+                              	}
+
+	/**
+	 * @param mixed $updatedAt
+	 *
+	 * @return Base
+	 */
+	public function setUpdatedAt( $updatedAt ) {
+                              		$this->updatedAt = $updatedAt;
+                              
+                              		return $this;
+                              	}
+
+    public function getStockQty(): ?int
+    {
+        return $this->stock_qty;
+    }
+
+    public function setStockQty(?int $stock_qty): self
+    {
+        $this->stock_qty = $stock_qty;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            $order->removeProduct($this);
+        }
+
+        return $this;
+    }
 
 }

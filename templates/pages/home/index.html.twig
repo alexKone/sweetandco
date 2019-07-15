@@ -1,83 +1,111 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <section class="container wrapper homepage">
-    <section class="homepage__formules">
-      <h3>Les formules</h3>
-      {% if formules %}
-      <div class="row">
-        {% for formule in formules %}
-          <div class="item col s6 m4">
-            <a href="/formules/{{ formule.id }}"></a>
-            <div class="product__image">
-              <img src="http://lorempixel.com/400/200" alt="">
-            </div>
-            <div class="product__info">
-              <div class="name">{{ formule.name }}</div>
-              <div class="price">{{ formule.price|number_format(2) }}</div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </section>
 
-    {% if categories %}
-      {% for category in categories %}
-        <section class="homepage__{{ category.slug }}">
-          <h3>{{ category.name }}</h3>
-          <div class="row">
-            {% for product in category.products %}
-              <aside class="item col s6 m4">
-                <a href="/category/{{ category.slug }}/{{ product.id }}"></a>
-                <span>{{ product.name }}</span>
-              </aside>
-            {% endfor %}
-          </div>
-        </section>
-      {% endfor %}
+  <a href="{{ path('app_send-email') }}">send email</a>
+
+  <section class="container wrapper homepage">
+
+    {% if formules %}
+      <section id="formules" class="homepage__formules">
+        <h3>Les formules</h3>
+        <div class="row">
+          {% for formule in formules %}
+            <div class="item col s6 m4">
+              <a href="/formules/{{ formule.id }}"></a>
+              <div class="product__image">
+                <img src="http://lorempixel.com/400/200" alt="">
+              </div>
+              <div class="product__info">
+                <div class="name">{{ formule.name }}</div>
+                <div class="price">{{ formule.price|number_format(2) }}€</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
     {% endif %}
 
-    {#<section class="homepage__bagels">#}
-      {#<h3>Les bagels</h3>#}
-    {#</section>#}
+    {% if paninis %}
+      <section id="paninis" class="homepage__paninis">
+        <h3>Les paninis</h3>
+        <div class="row">
+          {% for panini in paninis %}
+            <div class="item col s6 m4">
+              <a href="/paninis/{{ panini.id }}"></a>
+              <div class="product__image">
+                <img src="http://lorempixel.com/400/200" alt="">
+              </div>
+              <div class="product__info">
+                <div class="name">{{ panini.name }}</div>
+                <div class="price">{{ panini.price|number_format(2) }}€</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
 
-    {#<section class="homepage__paninis">#}
-      {#<h3>Les paninis</h3>#}
-    {#</section>#}
+    {% if bagels %}
+      <section id="bagels" class="homepage__bagels">
+        <h3>Les bagels</h3>
+        <div class="row">
+          {% for bagel in bagels %}
+            <div class="item col s6 m4">
+              <a href="/bagels/{{ bagel.id }}"></a>
+              <div class="product__image">
+                <img src="http://lorempixel.com/400/200" alt="">
+              </div>
+              <div class="product__info">
+                <div class="name">{{ bagel.name }}</div>
+                <div class="price">{{ bagel.price|number_format(2) }}€</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
 
-    {#<section class="homepage__boissons">#}
-      {#<h3>Les boissons</h3>#}
-    {#</section>#}
+    {% if boissons %}
+      <section id="boissons" class="homepage__boissons">
+        <h3>Les boissons</h3>
+        <div class="row">
+          {% for boisson in boissons %}
+            <div class="item col s6 m4">
+              <a href="/boissons/{{ boisson.id }}"></a>
+              <div class="product__image">
+                <img src="http://lorempixel.com/400/200" alt="">
+              </div>
+              <div class="product__info">
+                <div class="name">{{ boisson.name }}</div>
+                <div class="price">{{ boisson.price|number_format(2) }}€</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
 
-    {#<section class="homepage__desserts">#}
-      {#<h3>Les desserts</h3>#}
-    {#</section>#}
+    {% if desserts %}
+      <section id="desserts" class="homepage__desserts">
+        <h3>Les desserts</h3>
+        <div class="row">
+          {% for dessert in desserts %}
+            <div class="item col s6 m4">
+              <a href="/desserts/{{ dessert.id }}"></a>
+              <div class="product__image">
+                <img src="http://lorempixel.com/400/200" alt="">
+              </div>
+              <div class="product__info">
+                <div class="name">{{ dessert.name }}</div>
+                <div class="price">{{ dessert.price|number_format(2) }}€</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
 
   </section>
 {% endblock %}
-
-{#{% block body %}#}
-  {#{% if categories %}#}
-  {#<h3>Les categories</h3>#}
-  {#{% for category in categories %}#}
-  {#<li>#}
-  {#<a href="/category/{{ category.slug }}">{{ category.name }}</a>#}
-  {#</li>#}
-  {#<ul>#}
-  {#{% for product in category.products %}#}
-  {#<li>{{ product.name }}</li>#}
-  {#{% endfor %}#}
-  {#</ul>#}
-  {#{% endfor %}#}
-  {#{% endif %}#}
-  {#{% if formules %}#}
-  {#{% for formule in formules %}#}
-  {#<a href="/formules/{{ formule.id }}">#}
-  {#<h2>{{ formule.name }} ({{ formule.price }})</h2>#}
-  {#</a>#}
-  {#{% endfor %}#}
-  {#{% endif %}#}
-  {#<div id="root"></div>#}
-{#{% endblock %}#}
 

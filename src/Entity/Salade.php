@@ -57,6 +57,11 @@ class Salade
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Formule", inversedBy="salade")
+     */
+    private $formule;
+
 
     public function __construct()
     {
@@ -69,9 +74,9 @@ class Salade
     }
 
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+             {
+                 return $this->id;
+             }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -131,6 +136,18 @@ class Salade
     public function setSauce(?Sauce $sauce): self
     {
         $this->sauce = $sauce;
+
+        return $this;
+    }
+
+    public function getFormule(): ?Formule
+    {
+        return $this->formule;
+    }
+
+    public function setFormule(?Formule $formule): self
+    {
+        $this->formule = $formule;
 
         return $this;
     }

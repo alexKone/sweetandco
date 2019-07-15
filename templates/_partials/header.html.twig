@@ -1,63 +1,38 @@
-{#<header>#}
-  {#<a href="/">LOGO</a>#}
-  {#{{ app.session.get('items')|length }}#}
-  {#{{ dump(app.session.get('items')) }}#}
-  {#{% if app.session.name == 'items' %}#}
-    {#<h1>session est pleine</h1>#}
-  {#{% endif %}#}
-  {#{{ dump(app.session) }}#}
-
-  {#<span class="cart-button"><img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width:24px"></span>#}
-  {#<span class="cart-button">#}
-    {#<i class="material-icons">shopping_cart</i>#}
-    {#<img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width: 24px;" />#}
-    {#<span class="cart-count">2</span>#}
-  {#</span>#}
-
-{#</header>#}
-
+{{ dump(app.session.get('items')) }}
+{% if app.user %}
+  {{ dump(app.user) }}
+  <a href="{{ path('app_logout') }}">logout</a>
+{% else %}
+  <a href="{{ path('app_login') }}">login</a>
+  <a href="{{ path('app_register') }}">register</a>
+{% endif %}
 <nav>
   <div class="nav-wrapper">
-    <a href="#!" class="brand-logo">Logo</a>
+    <a href="{{ path('homepage') }}" class="brand-logo">Logo</a>
     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <a href="#" class="right">
+      <span class="cart-button">
+        <i class="material-icons">shopping_cart</i>
+        {#<img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width: 24px;" />#}
+        <span class="cart-count">{{ app.session.get('items')|length }}</span>
+      </span>
+    </a>
     <ul class="right hide-on-med-and-down">
-      <li><a href="sass.html">Les formules</a></li>
-      <li><a href="badges.html">Les Bagels</a></li>
-      <li><a href="collapsible.html">Les paninis</a></li>
-      <li><a href="/">Mobile</a></li>
+      <li data-anchor="formules"><a href="#">Les formules</a></li>
+      <li data-anchor="paninis"><a href="#">Les paninis</a></li>
+      <li data-anchor="bagels"><a href="#">Les Bagels</a></li>
+      <li data-anchor="boissons"><a href="#">Les boissons</a></li>
+      <li data-anchor="desserts"><a href="#">Les desserts</a></li>
     </ul>
   </div>
 </nav>
 
-
-{#<header>#}
-  {#<nav>#}
-    {#<div class="nav-wrapper">#}
-      {#<div>#}
-        {#<button data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></button>#}
-      {#</div>#}
-      {#<div>#}
-        {#<a href="/">LOGO</a>#}
-      {#</div>#}
-      {#<div>#}
-    {#<span class="cart-button">#}
-      {#<a href="{{ path('cart') }}">#}
-        {#<i class="material-icons">shopping_cart</i>#}
-        {#<img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width: 24px;" />#}
-        {#<span class="cart-count">{{ app.session.get('items')|length }}</span>#}
-      {#</a>#}
-    {#</span>#}
-      {#</div>#}
-    {#</div>#}
-  {#</nav>#}
-{#</header>#}
-
 <ul class="sidenav" id="mobile-demo">
   <li><a href="{{ path('homepage') }}">Accueil</a></li>
-  <li><a href="/">Les formules</a></li>
-  <li><a href="/">Les bagels</a></li>
-  <li><a href="/">Les paninis</a></li>
-  <li><a href="/">Les boissons</a></li>
-  <li><a href="/">Les desserts</a></li>
+  <li><a href="sass.html">Les formules</a></li>
+  <li><a href="badges.html">Les Bagels</a></li>
+  <li><a href="collapsible.html">Les paninis</a></li>
+  <li><a href="collapsible.html">Les boissons</a></li>
+  <li><a href="collapsible.html">Les desserts</a></li>
 </ul>
 

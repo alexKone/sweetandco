@@ -1,21 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block body %}
   <h1>checkout page</h1>
-  {{ dump(app.user) }}
-  {{ dump(app.session.get('items')) }}
+  {#{{ dump(app.user) }}#}
+  {#{{ dump(app.session.get('items')) }}#}
+
+  {% if app.user %}
+  {% else %}
+    <span>pas d'user</span>
+  {% endif %}
 
   {% if app.session.get('items') %}
     {% for item in app.session.get('items') %}
-      {{ dump(item) }}
+      {#{{ dump(item) }}#}
       {% if item.name is same as ('formule') %}
-        <li>1 x {{ item.item_name }} - {{ item.price }}€</li>
+        <li>1 x {{ item.title }} - {{ item.price }}€</li>
       {% else %}
         <li>{{ item.quantity }} x {{ item.name }}</li>
       {% endif %}
     {% endfor %}
   {% endif %}
 
-  <input type="text" class="datepicker">
+  {#<input id="date" type="text" class="datepicker" />#}
 
   {#<form>#}
     {#<label>#}

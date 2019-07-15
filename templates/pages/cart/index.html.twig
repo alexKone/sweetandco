@@ -1,24 +1,41 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-  <h1>Cart page</h1>
+  <div class="container">
+    <h1>Cart page</h1>
 
-  {% if formules %}
-    {% for formule in formules %}
-      {#<li>{{ dump(formule) }}</li>#}
-    {% endfor %}
-  {% endif %}
+    {{ dump(app.session.get('items')) }}
 
-  {% if products %}
-    <ul>
-    {% for product in products %}
-      <li>{{ product[1] }} x {{ product[0].name }} - {{ product[1] * product[0].price }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+    <table>
+      <thead>
+      <tr>
+        <th></th>
+        <th>Quantity</th>
+        <th>Item Name</th>
+        <th>Item Price</th>
+      </tr>
+      </thead>
 
-  {% if formules %}
-    {% if products %}
-      <a href="{{ path('checkout') }}">valider la commande</a>
-    {% endif %}
-  {% endif %}
+      <tbody>
+      {% if app.session.get('items') %}
+        {% for item in app.session.get('items') %}
+          {% if item.name is same as ('formule') %}
+            <tr>
+              <th>X</th>
+              <th>1</th>
+              <th>{{ item.title }}</th>
+              <th>{{ item.price }}</th>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      </tbody>
+    </table>
+
+    <span>total price => {{ total }}</span>
+
+    <a href="/checkout" class="btn-large">checkout</a>
+
+  </div>
+
+
 {% endblock %}

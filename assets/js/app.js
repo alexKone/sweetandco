@@ -99,3 +99,4 @@ function countInArray(array, what) {
   }
   return count;
 }
+

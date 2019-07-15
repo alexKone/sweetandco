@@ -2,7 +2,7 @@
 
 {% block body %}
   {% if formule %}
-    <h1 class="center-align">{{ formule.name }}</h1>
+    <h1 class="center-align truncate">{{ formule.name }}</h1>
     <input type="hidden" name="id[]" value="{{ formule.price }}" />
     <input type="hidden" name="details" data-ingredients="{{ formule.limitIngredient }}">
 
@@ -33,7 +33,7 @@
           {% if subCategory %}
             {% for sub in subCategory %}
               {% if sub.ingredients|length > 0 %}
-                <h5>{{ sub.name }}</h5>
+                <h5 class="center-align">{{ sub.name }}</h5>
                 <ul class="row">
                   {% for ingredient in sub.ingredients|sortByField('name') %}
                     <li class="item col s6 m4 l3">
@@ -82,25 +82,69 @@
 
 
     {% if formule.hasBagel %}
-      <section class="bagels">
-        <h3>les bagels</h3>
-        {% for bagel in bagels %}
-          <li>
-            <span>{{ bagel.name }}</span>
-            <p>{{ bagel.shortDescription }}</p>
+      <h3>Les bagels</h3>
+      <div class="row">
+        {% for bagel in bagels|sortByField('name') %}
+          <li class="item col s6 m4 l3">
+            <label>
+              <img class="img-list" src="" alt="" />
+              <input type="radio" name="bagel" value="{{ bagel.id }}" required />
+              <span>{{ bagel.name }}</span>
+            </label>
           </li>
         {% endfor %}
-      </section>
+
+      </div>
     {% endif %}
+
     {% if formule.hasPanini %}
-      <section class="paninis">
-        <h3>les paninis</h3>
-      </section>
+
+      <h3>Les paninis</h3>
+      <div class="row">
+        {% for panini in paninis|sortByField('name') %}
+          <li class="item col s6 m4 l3">
+            <label>
+              <img class="img-list" src="" alt="" />
+              <input type="radio" name="panini" value="{{ panini.id }}" required />
+              <span>{{ panini.name }}</span>
+            </label>
+          </li>
+        {% endfor %}
+
+      </div>
     {% endif %}
+
     {% if formule.hasBoisson %}
-        <span>boisson incluse</span>
-      {% endif %}
+      <h3>Les boissons</h3>
+      <div class="row">
+        {% for boisson in boissons|sortByField('name') %}
+          <li class="item col s6 m4 l3">
+            <label>
+              <img class="img-list" src="" alt="" />
+              <input type="radio" name="boisson" value="{{ boisson.id }}" required />
+              <span>{{ boisson.name }}</span>
+            </label>
+          </li>
+        {% endfor %}
+
+      </div>
+    {% endif %}
+
     {% if formule.hasDessert %}
+
+      <h3>Les desserts</h3>
+      <div class="row">
+        {% for dessert in desserts|sortByField('name') %}
+          <li class="item col s6 m4 l3">
+            <label>
+              <img class="img-list" src="" alt="" />
+              <input type="radio" name="dessert" value="{{ dessert.id }}" required />
+              <span>{{ dessert.name }}</span>
+            </label>
+          </li>
+        {% endfor %}
+
+      </div>
     {% endif %}
 
 

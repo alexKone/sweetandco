@@ -18,9 +18,42 @@
   {% block body %}{% endblock %}
   {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    {#{{ encore_entry_js_files('build/runtime.js') }}#}
-    {#<script src="{{ asset('build/runtime.js') }}"></script>#}
     {{ encore_entry_script_tags('app') }}
+    <script>
+      function smoothScroll(target, duration) {
+        var target = document.getElementById(target);
+        var targetPosition = target.getBoundingClientRect().top;
+        var startPosition = window.pageYOffset;
+        var distance = targetPosition - startPosition;
+        var startTime = null;
+
+        function animation(currentTime) {
+          if (startTime === null) startTime = currentTime;
+          var timeElapsed = currentTime - startTime;
+          var run = ease(timeElapsed, startPosition, distance, duration);
+          window.scrollTo(0, run);
+          if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function ease(t, b, c, d) {
+          t /= d / 2;
+          if (t < 1) return c / 2 * t * t + b;
+          i++;
+          return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+      }
+
+      const elts = document.querySelectorAll('.right.hide-on-med-and-down > li');
+      elts.forEach(elt => elt.addEventListener('click', evt => smoothScroll(elt.getAttribute('data-anchor'), 1000)))
+      // var formule = document.querySelector('.homepage__formules');
+      // var panini = document.querySelector('.homepage__paninis');
+      // var bagel = document.querySelector('.homepage__bagels');
+      // var boisson = document.querySelector('.homepage__boissons');
+      // var dessert = document.querySelector('.homepage__desserts');
+
+    </script>
   {% endblock %}
 </body>
 </html>

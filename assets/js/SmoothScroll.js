@@ -31,5 +31,13 @@ function smoothScroll(target, duration) {
   requestAnimationFrame(animation);
 }
 
+const btn1 = document.querySelector('.anchor__formules');
+btn1.addEventListener('click', evt => {
+  console.log(evt)
+})
 
-var section1 = document.querySelector('');
+var formule = document.querySelector('.homepage__formules');
+var panini = document.querySelector('.homepage__paninis');
+var bagel = document.querySelector('.homepage__bagels');
+var boisson = document.querySelector('.homepage__boissons');
+var dessert = document.querySelector('.homepage__desserts');

@@ -7,6 +7,33 @@ easy_admin:
 #        - App\Entity\Sauce
     site_name: 'Sweet & CO.'
     entities:
+        Formule:
+            class: App\Entity\Formule
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'short_description' }
+                    - { property: 'price' }
+
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'description' }
+                    - { property: 'short_description' }
+                    - { property: 'price' }
+                    - { property: 'limit_base' }
+                    - { property: 'limit_ingredient' }
+                    - { property: 'limit_sauce' }
+                    - { property: 'has_bagel' }
+                    - { property: 'has_panini' }
+                    - { property: 'has_boisson' }
+                    - { property: 'has_dessert' }
+                    - { property: 'imageFile', type: 'vich_image' }
+
+
 
         Base:
             class: App\Entity\Base
@@ -51,44 +78,6 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'imageFile', type: 'vich_image' }
 
-        Category:
-            class: App\Entity\Category
-            form:
-                fields:
-#                    - { property: 'id' }
-                    - { property: 'name' }
-                    - { property: 'position' }
-                    - { property: 'products' }
-            list:
-                fields:
-                    - { property: 'id' }
-                    - { property: 'position' }
-                    - { property: 'name' }
-                    - { property: 'slug' }
-                    - { property: 'products' }
-
-        Product:
-            class: App\Entity\Product
-            form:
-                fields:
-                    - { property: 'name' }
-                    - { property: 'description' }
-                    - { property: 'short_description' }
-                    - { property: 'price' }
-                    - { property: 'is_active' }
-                    - { property: 'category' }
-                    - { property: 'imageFile', type: 'vich_image' }
-            list:
-                fields:
-                    - { property: 'id' }
-                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
-                    - { property: 'name' }
-                    - { property: 'description' }
-                    - { property: 'short_description' }
-                    - { property: 'price' }
-                    - { property: 'is_active' }
-                    - { property: 'slug' }
-                    - { property: 'category' }
 
         SubCategory:
             class: App\Entity\SubCategory
@@ -99,6 +88,44 @@ easy_admin:
                 fields:
                     - { property: 'name' }
                     - { property: 'short_description' }
+                    - { property: 'price' }
+                    - { property: 'imageFile', type: 'vich_image' }
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'name' }
+        Paninis:
+            class: App\Entity\Panini
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'short_description' }
+                    - { property: 'price' }
+                    - { property: 'imageFile', type: 'vich_image' }
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'name' }
+        Boissons:
+            class: App\Entity\Boisson
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'price' }
+                    - { property: 'imageFile', type: 'vich_image' }
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'name' }
+        Dessert:
+            class: App\Entity\Dessert
+            form:
+                fields:
+                    - { property: 'name' }
+                    - { property: 'price' }
                     - { property: 'imageFile', type: 'vich_image' }
             list:
                 fields:

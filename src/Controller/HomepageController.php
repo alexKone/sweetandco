@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
+use App\Entity\Bagel;
+use App\Entity\Boisson;
+use App\Entity\Dessert;
 use App\Entity\Formule;
-use App\Entity\Salade;
-use App\Form\SaladeType;
+use App\Entity\Panini;
+use App\Service\CustomMailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -21,16 +22,22 @@ class HomepageController extends AbstractController
 	public function index(  ) {
 //		$session = new Session(new NativeSessionStorage(), new AttributeBag());
 //		$session->clear();
-		$formules = $this->getDoctrine()->getRepository(Formule::class)->findAll();
-		$categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
-		$bagels = $this->getDoctrine()->getRepository(Category::class)->findOneBySlug('les-bagels');
-		$paninis = $this->getDoctrine()->getRepository(Category::class)->findOneBySlug('les-paninis');
 
-//		dump($categories);
-//		die();
+
 		return $this->render('pages/home/index.html.twig', [
-			'formules' => $formules,
-			'categories' => $categories
+			'formules' => $this->getDoctrine()->getRepository(Formule::class)->findAll(),
+			'paninis' => $this->getDoctrine()->getRepository(Panini::class)->findAll(),
+			'bagels' => $this->getDoctrine()->getRepository(Bagel::class)->findAll(),
+			'boissons' => $this->getDoctrine()->getRepository(Boisson::class)->findAll(),
+			'desserts' => $this->getDoctrine()->getRepository(Dessert::class)->findAll(),
 		]);
+	}
+
+	/**
+	 * @Route("/send-email", name="app_send-email")
+	 */
+	public function sendEmail( CustomMailService $mailService ) {
+		return $mailService->sendMail('Alexandre');
+
 	}
 }

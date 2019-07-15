@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Category;
+use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Customer|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Customer|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Customer[]    findAll()
+ * @method Customer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class CustomerRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($registry, Customer::class);
     }
 
     // /**
-    //  * @return Category[] Returns an array of Category objects
+    //  * @return Customer[] Returns an array of Customer objects
     //  */
     /*
     public function findByExampleField($value)
@@ -36,14 +36,15 @@ class CategoryRepository extends ServiceEntityRepository
     }
     */
 
-    public function findOneBySlug($value): ?Category
+    /*
+    public function findOneBySomeField($value): ?Customer
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.slug = :val')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-
+    */
 }

@@ -24,7 +24,8 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-#    mail_helper:
-#        arguments: ["@mailer", "@templating"]
+    app.email_handler:
+        class: App\Service\CustomMailService
+        arguments: ["@mailer", "@templating"]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

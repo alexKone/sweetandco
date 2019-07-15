@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use App\Service\CustomMailService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +16,23 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class RegistrationController extends AbstractController
 {
-    /**
-     * @Route("/register", name="app_register")
-     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
+	/**
+	 * @Route("/register", name="app_register")
+	 * @param Request $request
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param GuardAuthenticatorHandler $guardHandler
+	 * @param LoginFormAuthenticator $authenticator
+	 *
+	 * @param CustomMailService $mailService
+	 *
+	 * @return Response
+	 */
+    public function register(
+    	Request $request,
+	    UserPasswordEncoderInterface $passwordEncoder,
+	    GuardAuthenticatorHandler $guardHandler,
+	    LoginFormAuthenticator $authenticator,
+		CustomMailService $mailService): Response
     {
         $user = new Customer();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,6 +50,10 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $mailService->sendMail($user->getUsername());
+
+
 
             // do anything else you need here, like send an email
 

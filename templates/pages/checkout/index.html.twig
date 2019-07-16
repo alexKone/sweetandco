@@ -5,8 +5,17 @@
   {#{{ dump(app.session.get('items')) }}#}
 
   {% if app.user %}
+
+    <input id="cardholder-name" type="hidden" value="{{ cart_value }}" />
+    <!-- placeholder for Elements -->
+    <div id="card-element"></div>
+    <button id="card-button" data-secret="{{ intent_client_secret }}">
+      Submit Payment
+    </button>
+
+
   {% else %}
-    <span>pas d'user</span>
+    <span>login form</span>
   {% endif %}
 
   {% if app.session.get('items') %}
@@ -19,6 +28,8 @@
       {% endif %}
     {% endfor %}
   {% endif %}
+
+
 
   {#<input id="date" type="text" class="datepicker" />#}
 
@@ -37,4 +48,39 @@
     {#<button type="submit">valider panier</button>#}
   {#</form>#}
 
+{% endblock %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    var stripe = Stripe('pk_test_TKXXHFzX8TffglZuhcz63eTO0099Nj7Hot');
+
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    var cardholderName = document.getElementById('cardholder-name');
+    var cardButton = document.getElementById('card-button');
+    var clientSecret = cardButton.dataset.secret;
+
+    cardButton.addEventListener('click', function(ev) {
+      stripe.handleCardPayment(
+        clientSecret, cardElement, {
+          payment_method_data: {
+            billing_details: {name: cardholderName.value}
+          }
+        }
+      ).then(function(result) {
+        if (result.error) {
+          console.log(result.error)
+          // Display error.message in your UI.
+        } else {
+          // The payment has succeeded. Display a success message.
+        }
+      });
+    });
+  </script>
 {% endblock %}

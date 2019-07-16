@@ -228,6 +228,9 @@
             "./config/packages/stof_doctrine_extensions.yaml"
         ]
     },
+    "stripe/stripe-php": {
+        "version": "v6.40.0"
+    },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.1"
     },

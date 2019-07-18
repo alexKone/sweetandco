@@ -34,6 +34,12 @@ class Panini
      */
     private $slug;
 
+	/**
+	 * @var
+	 * @ORM\Column(type="string")
+	 */
+    private $short_description;
+
     /**
      * @ORM\Column(type="float")
      */
@@ -57,6 +63,12 @@ class Panini
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	private $updatedAt;
+
+	/**
+	 * @var bool
+	 * @ORM\Column(type="boolean", nullable=false)
+	 */
+	private $is_active = true;
 
     public function getId(): ?int
     {
@@ -100,16 +112,16 @@ class Panini
     }
 
 	public function getFilename(): ?string
-	{
-		return $this->filename;
-	}
+            	{
+            		return $this->filename;
+            	}
 
 	public function setFilename(?string $filename): self
-	{
-		$this->filename = $filename;
-
-		return $this;
-	}
+            	{
+            		$this->filename = $filename;
+      
+            		return $this;
+            	}
 
 	/**
 	 * @param File|null $imageFile
@@ -117,30 +129,54 @@ class Panini
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile ): void {
-		$this->imageFile = $imageFile;
-		if ($imageFile) {
-			$this->updatedAt = new \DateTime('now');
-		}
-	}
+            		$this->imageFile = $imageFile;
+            		if ($imageFile) {
+            			$this->updatedAt = new \DateTime('now');
+            		}
+            	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-		return $this->imageFile;
-	}
+            		return $this->imageFile;
+            	}
 
 	public function getUpdatedAt(): ?\DateTimeInterface
-	{
-		return $this->updatedAt;
-	}
+            	{
+            		return $this->updatedAt;
+            	}
 
 	public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-	{
-		$this->updatedAt = $updatedAt;
+            	{
+            		$this->updatedAt = $updatedAt;
+      
+            		return $this;
+            	}
 
-		return $this;
-	}
+    public function getIsActive(): ?bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): self
+    {
+        $this->is_active = $is_active;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->short_description;
+    }
+
+    public function setShortDescription(string $short_description): self
+    {
+        $this->short_description = $short_description;
+
+        return $this;
+    }
 
 
 }

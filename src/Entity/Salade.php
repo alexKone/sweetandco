@@ -62,7 +62,6 @@ class Salade
      */
     private $formule;
 
-
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();

@@ -9,144 +9,155 @@
 
     <form class="container" method="post">
 
-      <section class="bases">
-        <h3>Les bases</h3>
-
-        <div class="row">
-          {% for base in bases|sortByField('name') %}
-          <li class="item col s6 m4 l3">
-            <label>
-              <img class="img-list" src="{{ vich_uploader_asset(base, 'imageFile') }}" alt="">
-              <input id="_base_{{ base.id }}" type="radio" value="{{ base.id }}" name="base" required>
-              <span>{{ base.name }}</span>
-            </label>
-            {#<label for="_base_{{ base.id }}">{{ base.name }}</label>#}
-          </li>
-        {% endfor %}
+      <section class="content base">
+        <div class="content__title">
+          <span>1</span>
+          <h2>Choisissez la base...</h2>
         </div>
-      </section>
-
-      <section class="ingredients">
-        <h3>Les ingredients <span class="anot">({{ formule.limitIngredient }} au choix)</span></h3>
-        <div class="row">
-
-          {% if subCategory %}
-            {% for sub in subCategory %}
-              {% if sub.ingredients|length > 0 %}
-                <h5 class="center-align">{{ sub.name }}</h5>
-                <ul class="row">
-                  {% for ingredient in sub.ingredients|sortByField('name') %}
-                    <li class="item col s6 m4 l3">
-                      <label class="checkbox">
-                        <img src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="">
-                        <input id="_ingredient_{{ ingredient.id }}" type="checkbox" name="ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />
-                        <span>{{ ingredient.name }}</span>
-                      </label>
-                    </li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
+        <div class="content__items">
+          <ul>
+            {% for base in bases %}
+              <li>
+                <label>
+                  <img src="{{ vich_uploader_asset(base, 'imageFile') }}" alt="">
+                  <input type="radio" name="base" value="{{ base.id }}" required>
+                  <span>{{ base.name }}</span>
+                </label>
+              </li>
             {% endfor %}
-          {% endif %}
-
-          {#{% for ingredient in ingredients|sortByField('name') %}#}
-            {#<li class="col s6 m4 l3">#}
-              {#<label class="checkbox">#}
-                {#<img src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="">#}
-                {#<input id="_ingredient_{{ ingredient.id }}" type="checkbox" name="ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />#}
-                {#<span>{{ ingredient.name }}</span>#}
-              {#</label>#}
-              {#<label for="_ingredient_{{ ingredient.id }}">{{ ingredient.name }}</label>#}
-            {#</li>#}
-          {#{% endfor %}#}
+          </ul>
         </div>
       </section>
 
-
-      <section class="bases">
-        <h3>Les Sauces</h3>
-
-        <div class="row">
-          {% for sauce in sauces|sortByField('name') %}
-            <li class="item col s6 m4 l3">
-              <label>
-                <img class="img-list" src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">
-                <input id="_sauce_{{ sauce.id }}" type="radio" value="{{ sauce.id }}" name="sauce" required>
-                <span>{{ sauce.name }}</span>
-              </label>
-              {#<label for="_base_{{ base.id }}">{{ base.name }}</label>#}
-            </li>
-          {% endfor %}
+      <section class="content ingredients">
+        <div class="content__title">
+          <span>2</span>
+          <h2>Choisissez vos ingredients...</h2>
+        </div>
+        <div class="content__items">
+          <ul>
+            {% for ingredient in ingredients %}
+              <li>
+                <label>
+                  <img src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="" />
+                  <input type="checkbox" name="ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />
+                  <span>{{ ingredient.name }}</span>
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
       </section>
 
+      <section class="content sauce">
+        <div class="content__title">
+          <span>3</span>
+          <h2>Choisissez la sauce...</h2>
+        </div>
+        <div class="content__items">
+          <ul>
+            {% for sauce in sauces %}
+              <li>
+                <label>
+                  <img src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">
+                  <input type="radio" name="sauce" value="{{ sauce.id }}" required>
+                  <span>{{ sauce.name }}</span>
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
 
-    {% if formule.hasBagel %}
-      <h3>Les bagels</h3>
-      <div class="row">
-        {% for bagel in bagels|sortByField('name') %}
-          <li class="item col s6 m4 l3">
-            <label>
-              <img class="img-list" src="" alt="" />
-              <input type="radio" name="bagel" value="{{ bagel.id }}" required />
-              <span>{{ bagel.name }}</span>
-            </label>
-          </li>
-        {% endfor %}
+      {% if formule.hasBagel %}
+        <section class="content bagel">
+          <div class="content__title">
+            <span>3</span>
+            <h2>Choisissez le bagel...</h2>
+          </div>
+          <div class="content__items">
+            <ul>
+              {% for bagel in bagels %}
+                <li>
+                  <label>
+                    <img src="{{ vich_uploader_asset(bagel, 'imageFile') }}" alt="">
+                    <input type="radio" name="bagel" value="{{ bagel.id }}" required>
+                    <span>{{ bagel.name }}</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      {% endif %}
 
-      </div>
-    {% endif %}
+      {% if formule.hasPanini %}
+        <section class="content panini">
+          <div class="content__title">
+            <span>3</span>
+            <h2>Choisissez le panini...</h2>
+          </div>
+          <div class="content__items">
+            <ul>
+              {% for panini in paninis %}
+                <li>
+                  <label>
+                    <img src="{{ vich_uploader_asset(panini, 'imageFile') }}" alt="">
+                    <input type="radio" name="panini" value="{{ panini.id }}" required>
+                    <span>{{ panini.name }}</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      {% endif %}
 
-    {% if formule.hasPanini %}
+      {% if formule.hasBoisson %}
+        <section class="content boisson">
+          <div class="content__title">
+            <span>3</span>
+            <h2>Choisissez la boisson...</h2>
+          </div>
+          <div class="content__items">
+            <ul>
+              {% for boisson in boissons %}
+                <li>
+                  <label>
+                    <img src="{{ vich_uploader_asset(boisson, 'imageFile') }}" alt="">
+                    <input type="radio" name="boisson" value="{{ boisson.id }}" required>
+                    <span>{{ boisson.name }}</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      {% endif %}
 
-      <h3>Les paninis</h3>
-      <div class="row">
-        {% for panini in paninis|sortByField('name') %}
-          <li class="item col s6 m4 l3">
-            <label>
-              <img class="img-list" src="" alt="" />
-              <input type="radio" name="panini" value="{{ panini.id }}" required />
-              <span>{{ panini.name }}</span>
-            </label>
-          </li>
-        {% endfor %}
+      {% if formule.hasDessert %}
+        <section class="content dessert">
+          <div class="content__title">
+            <span>3</span>
+            <h2>Choisissez le dessert...</h2>
+          </div>
+          <div class="content__items">
+            <ul>
+              {% for dessert in desserts %}
+                <li>
+                  <label>
+                    <img src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">
+                    <input type="radio" name="dessert" value="{{ dessert.id }}" required>
+                    <span>{{ dessert.name }}</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </section>
+      {% endif %}
 
-      </div>
-    {% endif %}
-
-    {% if formule.hasBoisson %}
-      <h3>Les boissons</h3>
-      <div class="row">
-        {% for boisson in boissons|sortByField('name') %}
-          <li class="item col s6 m4 l3">
-            <label>
-              <img class="img-list" src="" alt="" />
-              <input type="radio" name="boisson" value="{{ boisson.id }}" required />
-              <span>{{ boisson.name }}</span>
-            </label>
-          </li>
-        {% endfor %}
-
-      </div>
-    {% endif %}
-
-    {% if formule.hasDessert %}
-
-      <h3>Les desserts</h3>
-      <div class="row">
-        {% for dessert in desserts|sortByField('name') %}
-          <li class="item col s6 m4 l3">
-            <label>
-              <img class="img-list" src="" alt="" />
-              <input type="radio" name="dessert" value="{{ dessert.id }}" required />
-              <span>{{ dessert.name }}</span>
-            </label>
-          </li>
-        {% endfor %}
-
-      </div>
-    {% endif %}
-
+      <div style="margin-top: 100px"></div>
 
       <button type="submit">Valider</button>
 
@@ -158,18 +169,46 @@
 {% block javascripts %}
   {{ parent() }}
   <script>
-    const listBases = document.querySelectorAll('.bases>.row>li');
-    listBases.forEach(base => {
-      base.addEventListener('click', evt => {
-        listBases.forEach(b => {
-          if (b.classList.contains('is-selected'))
-            b.classList.remove('is-selected')
-        });
-        base.classList.add('is-selected')
-        // b.classList.add('is-selected')
-        // console.log(base, evt.target)
-      })
-    })
+    function addClass(elts, target) {
+      elts.forEach(elt => elt.addEventListener('click', evt => {
+        for (let i = 0; i < elts.length; i++) {
+          elts[i].classList.remove('is-active')
+        }
+        elt.classList.add('is-active')
+        smoothScroll(target, 1000)
+      }))
+    }
+    function smoothScroll(target, duration) {
+      var target = document.querySelector(target);
+      var targetPosition = target.getBoundingClientRect().top;
+      var startPosition = window.pageYOffset;
+      var distance = targetPosition - startPosition;
+      var startTime = null;
+
+      function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        var timeElapsed = currentTime - startTime;
+        var run = ease(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(animation);
+      }
+
+      function ease(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+      }
+
+      requestAnimationFrame(animation);
+    }
+
+
+    const baseElts = document.querySelectorAll('.base .content__items>ul>li');
+    const sauceElts = document.querySelectorAll('.sauce .content__items>ul>li');
+
+    addClass(baseElts, '.ingredients');
+    addClass(sauceElts);
 
     let nbIngredients = Number(document.querySelector('input[name="details"]').getAttribute('data-ingredients'));
     let inputElts = document.querySelectorAll('.ingredients input[type="checkbox"]');
@@ -186,7 +225,7 @@
       if (count === nbIngredients) {
         console.log('le conpte y est')
         inputElts.forEach(element => element.checked ? '' : element.setAttribute('disabled', 'disabled') )
-
+        smoothScroll('.sauce', 1000)
       }
       if (count < nbIngredients) {
         inputElts.forEach(i => {
@@ -196,6 +235,8 @@
         })
       }
     }))
+
+
 
   </script>
 {% endblock %}

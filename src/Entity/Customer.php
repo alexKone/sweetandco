@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Customer implements UserInterface
 {
@@ -55,15 +56,30 @@ class Customer implements UserInterface
      */
     private $city;
 
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+    private $createdAt;
+
+	/**
+	 * @var
+	 * @ORM\Column(type="datetime")
+	 */
+    private $last_login;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $zipcode;
 
-    public function getId(): ?int
-    {
-        return $this->id;
+    public function __construct() {
+		$this->createdAt = new \DateTime();
     }
+
+	public function getId(): ?int
+          {
+              return $this->id;
+          }
 
     public function getEmail(): ?string
     {
@@ -197,4 +213,38 @@ class Customer implements UserInterface
 
         return $this;
     }
+
+	public function getLastLogin(): ?\DateTimeInterface
+          {
+              return $this->last_login;
+          }
+
+	public function setLastLogin(\DateTimeInterface $last_login): self
+          {
+              $this->last_login = $last_login;
+
+              return $this;
+          }
+
+
+	/**
+	 * @throws \Exception
+	 * @ORM\PreUpdate()
+	 */
+	public function updateLastLogin(  ) {
+      		$this->setLastLogin(new \DateTime());
+      	}
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
 }

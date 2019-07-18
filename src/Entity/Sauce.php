@@ -51,6 +51,12 @@ class Sauce
 	 */
 	private $updatedAt;
 
+	/**
+	 * @var bool
+	 * @ORM\Column(type="boolean", nullable=false)
+	 */
+	private $is_active = true;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Salade", mappedBy="sauce")
@@ -63,8 +69,8 @@ class Sauce
     }
 
 	public function __toString(  ) {
-		return $this->name;
-	}
+      		return $this->name;
+      	}
 
     public function getId(): ?int
     {
@@ -87,8 +93,8 @@ class Sauce
 	 * @return string|null
 	 */
 	public function getFilename(): ?string {
-		return $this->filename;
-	}
+      		return $this->filename;
+      	}
 
 	/**
 	 * @param string|null $filename
@@ -96,17 +102,17 @@ class Sauce
 	 * @return Sauce
 	 */
 	public function setFilename( ?string $filename ) {
-		$this->filename = $filename;
-
-		return $this;
-	}
+      		$this->filename = $filename;
+      
+      		return $this;
+      	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-		return $this->imageFile;
-	}
+      		return $this->imageFile;
+      	}
 
 	/**
 	 * @param File|null $imageFile
@@ -115,18 +121,18 @@ class Sauce
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile = null ): void {
-		$this->imageFile = $imageFile;
-		if ($imageFile) {
-			$this->updatedAt = new \DateTime('now');
-		}
-	}
+      		$this->imageFile = $imageFile;
+      		if ($imageFile) {
+      			$this->updatedAt = new \DateTime('now');
+      		}
+      	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getUpdatedAt() {
-		return $this->updatedAt;
-	}
+      		return $this->updatedAt;
+      	}
 
 	/**
 	 * @param mixed $updatedAt
@@ -134,10 +140,10 @@ class Sauce
 	 * @return Sauce
 	 */
 	public function setUpdatedAt( $updatedAt ) {
-		$this->updatedAt = $updatedAt;
-
-		return $this;
-	}
+      		$this->updatedAt = $updatedAt;
+      
+      		return $this;
+      	}
 
 	/**
      * @return Collection|Salade[]
@@ -166,6 +172,18 @@ class Sauce
                 $salade->setSauce(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): self
+    {
+        $this->is_active = $is_active;
 
         return $this;
     }

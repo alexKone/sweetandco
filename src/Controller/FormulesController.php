@@ -36,6 +36,7 @@ class FormulesController extends AbstractController
 			$em = $this->getDoctrine()->getManager();
 
 			$datas = $request->request->all();
+
 			$keys = array_keys($datas);
 			$ingredientKeys = [];
 			$base = $datas['base'];
@@ -88,6 +89,7 @@ class FormulesController extends AbstractController
 				$item['bagel'] = $bagel;
 			}
 
+//			dump($newSalade);die();
 //			$session->set('items', $newSalade);
 
 			if (!empty($session->get('items'))) {
@@ -103,9 +105,8 @@ class FormulesController extends AbstractController
 				dump($newArr);
 //				die();
 			}
-			die();
 //
-//			return $this->redirectToRoute('checkout');
+			return $this->redirectToRoute('checkout');
 		}
 		$formule = $this->getDoctrine()
 		                ->getRepository(Formule::class)

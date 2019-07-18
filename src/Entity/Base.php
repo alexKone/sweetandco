@@ -14,6 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ApiResource(normalizationContext={"groups"={"base"}})
  * @ORM\Entity(repositoryClass="App\Repository\BaseRepository")
  * @Vich\Uploadable()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Base
 {
@@ -199,4 +200,11 @@ class Base
         return $this->is_active;
     }
 
+	/**
+	 * @throws \Exception
+	 * @ORM\PreUpdate()
+	 */
+	public function updateDate(  ) {
+		$this->setUpdatedAt(new \DateTime());
+    }
 }

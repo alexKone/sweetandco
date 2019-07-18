@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Events;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use App\Service\CustomMailService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,7 +35,8 @@ class RegistrationController extends AbstractController
 	    UserPasswordEncoderInterface $passwordEncoder,
 	    GuardAuthenticatorHandler $guardHandler,
 	    LoginFormAuthenticator $authenticator,
-		CustomMailService $mailService): Response
+		CustomMailService $mailService,
+		EventDispatcherInterface $eventDispatcher): Response
     {
         $user = new Customer();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -51,7 +55,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $mailService->sendMail($user->getUsername());
+            $event = new GenericEvent($user);
+            $eventDispatcher->dispatch(Events::USER_REGISTERED, $event);
+
+//            $mailService->sendMail($user->getUsername());
 
 
 

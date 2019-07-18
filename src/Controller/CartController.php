@@ -21,16 +21,18 @@ class CartController extends AbstractController
 	 */
 	public function index(  ) {
 		$session = new Session(new NativeSessionStorage(), new AttributeBag());
-
-
 		$total = 0;
 
-		foreach ( $session->get('items') as $item ) {
-			$total += $item['price'];
+		if ($session->get('items')) {
+
+			foreach ( $session->get('items') as $item ) {
+				$total += $item['price'];
+			}
 		}
 		return $this->render('pages/cart/index.html.twig', [
 			'total' => $total
 		]);
+
 
 	}
 }

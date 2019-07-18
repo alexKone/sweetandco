@@ -1,33 +1,129 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Validation de la commande{% endblock %}
+
 {% block body %}
-  <h1>checkout page</h1>
+
+  <section class="checkout">
+    <h1>Validation de la commande</h1>
+
+    <div class="error">
+      <p>Le retrait des commandes est actuellement fermé. Passez retirer votre commande demain à partir de 11h30.</p>
+    </div>
+
+    <div class="delivery">
+      <button>Retrait</button>
+      <button>livraison</button>
+    </div>
+
+    <div></div>
+
+    <div class="woocommerce-billing-fields">
+      <h3 class="h4">Détails de facturation		</h3>
+      <div class="woocommerce-billing-fields__field-wrapper">
+        <p class="form-row form-row-first form-group validate-required" id="billing_first_name_field" data-priority="10">
+          <label for="billing_first_name" class="control-label">Prénom&nbsp;<abbr class="required" title="obligatoire">*</abbr></label>
+          <span class="woocommerce-input-wrapper">
+          <input type="text" class="input-text form-control input-lg" name="billing_first_name" id="billing_first_name" placeholder="" value="" autocomplete="given-name">
+        </span>
+        </p>
+        <p class="form-row form-row-last form-group validate-required" id="billing_last_name_field" data-priority="20">
+          <label for="billing_last_name" class="control-label">Nom&nbsp;<abbr class="required" title="obligatoire">*</abbr></label>
+          <span class="woocommerce-input-wrapper">
+          <input type="text" class="input-text form-control input-lg" name="billing_last_name" id="billing_last_name" placeholder="" value="" autocomplete="family-name">
+        </span>
+        </p>
+        <p class="form-row form-row-wide form-group validate-required validate-phone" id="billing_phone_field" data-priority="100">
+          <label for="billing_phone" class="control-label">Téléphone&nbsp;<abbr class="required" title="obligatoire">*</abbr></label>
+          <span class="woocommerce-input-wrapper">
+          <input type="tel" class="input-text form-control input-lg" name="billing_phone" id="billing_phone" placeholder="" value="" autocomplete="tel">
+        </span>
+        </p>
+        <p class="form-row form-row-wide form-group validate-required validate-email" id="billing_email_field" data-priority="110">
+          <label for="billing_email" class="control-label">Adresse de messagerie&nbsp;<abbr class="required" title="obligatoire">*</abbr></label>
+          <span class="woocommerce-input-wrapper">
+          <input type="email" class="input-text form-control input-lg" name="billing_email" id="billing_email" placeholder="" value="" autocomplete="email username">
+        </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="hour-delivery">
+      <h3>Horaire de retrait</h3>
+      <div>
+        <p>
+          <label>
+            <input type="radio" name="hour_delivery" required />
+            <span>de 11h30 a 12h</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="hour_delivery" required />
+            <span>de 12h a 12h30</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="hour_delivery" required />
+            <span>de 12h30 a 13h</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="hour_delivery" required />
+            <span>de 13h a 13h30</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="hour_delivery" required />
+            <span>de 13h30 a 14h</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="hour_delivery" required />
+            <span>de 14h a 14h30</span>
+          </label>
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+{% endblock %}
+
+
+{#{% block body %}#}
+  {#<h1>checkout page</h1>#}
   {#{{ dump(app.user) }}#}
   {#{{ dump(app.session.get('items')) }}#}
 
-  {% if app.user %}
+  {#{% if app.user %}#}
 
-    <input id="cardholder-name" type="hidden" value="{{ cart_value }}" />
-    <!-- placeholder for Elements -->
-    <div id="card-element"></div>
-    <button id="card-button" data-secret="{{ intent_client_secret }}">
-      Submit Payment
-    </button>
+    {#<input id="cardholder-name" type="hidden" value="{{ cart_value }}" />#}
+    {#<!-- placeholder for Elements -->#}
+    {#<div id="card-element"></div>#}
+    {#<button id="card-button" data-secret="{{ intent_client_secret }}">#}
+      {#Submit Payment#}
+    {#</button>#}
 
 
-  {% else %}
-    <span>login form</span>
-  {% endif %}
+  {#{% else %}#}
+    {#<span>login form</span>#}
+  {#{% endif %}#}
 
-  {% if app.session.get('items') %}
-    {% for item in app.session.get('items') %}
+  {#{% if app.session.get('items') %}#}
+    {#{% for item in app.session.get('items') %}#}
       {#{{ dump(item) }}#}
-      {% if item.name is same as ('formule') %}
-        <li>1 x {{ item.title }} - {{ item.price }}€</li>
-      {% else %}
-        <li>{{ item.quantity }} x {{ item.name }}</li>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
+      {#{% if item.name is same as ('formule') %}#}
+        {#<li>1 x {{ item.title }} - {{ item.price }}€</li>#}
+      {#{% else %}#}
+        {#<li>{{ item.quantity }} x {{ item.name }}</li>#}
+      {#{% endif %}#}
+    {#{% endfor %}#}
+  {#{% endif %}#}
 
 
 
@@ -42,45 +138,45 @@
     {#</label>#}
   {#</form>#}
 
-  <a href="{{ path('order') }}">Order</a>
+  {#<a href="{{ path('order') }}">Order</a>#}
 
   {#<form method="post" action="{{ path('order') }}">#}
     {#<button type="submit">valider panier</button>#}
   {#</form>#}
 
-{% endblock %}
+{#{% endblock %}#}
 
 
-{% block javascripts %}
-  {{ parent() }}
+{#{% block javascripts %}#}
+  {#{{ parent() }}#}
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    var stripe = Stripe('pk_test_TKXXHFzX8TffglZuhcz63eTO0099Nj7Hot');
+  {#<script src="https://js.stripe.com/v3/"></script>#}
+  {#<script>#}
+    {#var stripe = Stripe('pk_test_TKXXHFzX8TffglZuhcz63eTO0099Nj7Hot');#}
 
-    var elements = stripe.elements();
-    var cardElement = elements.create('card');
-    cardElement.mount('#card-element');
+    {#var elements = stripe.elements();#}
+    {#var cardElement = elements.create('card');#}
+    {#cardElement.mount('#card-element');#}
 
-    var cardholderName = document.getElementById('cardholder-name');
-    var cardButton = document.getElementById('card-button');
-    var clientSecret = cardButton.dataset.secret;
+    {#var cardholderName = document.getElementById('cardholder-name');#}
+    {#var cardButton = document.getElementById('card-button');#}
+    {#var clientSecret = cardButton.dataset.secret;#}
 
-    cardButton.addEventListener('click', function(ev) {
-      stripe.handleCardPayment(
-        clientSecret, cardElement, {
-          payment_method_data: {
-            billing_details: {name: cardholderName.value}
-          }
-        }
-      ).then(function(result) {
-        if (result.error) {
-          console.log(result.error)
-          // Display error.message in your UI.
-        } else {
-          // The payment has succeeded. Display a success message.
-        }
-      });
-    });
-  </script>
-{% endblock %}
+    {#cardButton.addEventListener('click', function(ev) {#}
+      {#stripe.handleCardPayment(#}
+        {#clientSecret, cardElement, {#}
+          {#payment_method_data: {#}
+            {#billing_details: {name: cardholderName.value}#}
+          {#}#}
+        {#}#}
+      {#).then(function(result) {#}
+        {#if (result.error) {#}
+          {#console.log(result.error)#}
+          {#// Display error.message in your UI.#}
+        {#} else {#}
+          {#// The payment has succeeded. Display a success message.#}
+        {#}#}
+      {#});#}
+    {#});#}
+  {#</script>#}
+{#{% endblock %}#}

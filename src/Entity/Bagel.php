@@ -13,6 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\BagelRepository")
  * @Vich\Uploadable()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Bagel
 {
@@ -62,6 +63,12 @@ class Bagel
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $short_description;
+
+	/**
+	 * @var bool
+	 * @ORM\Column(type="boolean", nullable=false)
+	 */
+    private $is_active = true;
 
     public function getId(): ?int
     {
@@ -122,18 +129,18 @@ class Bagel
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile ): void {
-         		$this->imageFile = $imageFile;
-         		if ($imageFile) {
-         			$this->updatedAt = new \DateTime('now');
-         		}
-         	}
+               		$this->imageFile = $imageFile;
+               		if ($imageFile) {
+               			$this->updatedAt = new \DateTime('now');
+               		}
+               	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-         		return $this->imageFile;
-         	}
+               		return $this->imageFile;
+               	}
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -157,5 +164,25 @@ class Bagel
         $this->short_description = $short_description;
 
         return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): self
+    {
+        $this->is_active = $is_active;
+
+        return $this;
+    }
+
+	/**
+	 * @throws \Exception
+	 * @ORM\PreUpdate()
+	 */
+	public function updateDate(  ) {
+		$this->setUpdatedAt(new \DateTime());
     }
 }

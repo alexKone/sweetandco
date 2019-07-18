@@ -13,6 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\DessertRepository")
  * @Vich\Uploadable()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Dessert
 {
@@ -58,6 +59,12 @@ class Dessert
 	 */
 	private $updatedAt;
 
+	/**
+	 * @var bool
+	 * @ORM\Column(type="boolean", nullable=false)
+	 */
+	private $is_active = true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -100,16 +107,16 @@ class Dessert
     }
 
 	public function getFilename(): ?string
-	{
-		return $this->filename;
-	}
+      	{
+      		return $this->filename;
+      	}
 
 	public function setFilename(?string $filename): self
-	{
-		$this->filename = $filename;
+      	{
+      		$this->filename = $filename;
 
-		return $this;
-	}
+      		return $this;
+      	}
 
 	/**
 	 * @param File|null $imageFile
@@ -117,30 +124,49 @@ class Dessert
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile ): void {
-		$this->imageFile = $imageFile;
-		if ($imageFile) {
-			$this->updatedAt = new \DateTime('now');
-		}
-	}
+      		$this->imageFile = $imageFile;
+      		if ($imageFile) {
+      			$this->updatedAt = new \DateTime('now');
+      		}
+      	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-		return $this->imageFile;
-	}
+      		return $this->imageFile;
+      	}
 
 	public function getUpdatedAt(): ?\DateTimeInterface
-	{
-		return $this->updatedAt;
-	}
+      	{
+      		return $this->updatedAt;
+      	}
 
 	public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-	{
-		$this->updatedAt = $updatedAt;
+      	{
+      		$this->updatedAt = $updatedAt;
 
-		return $this;
-	}
+      		return $this;
+      	}
 
+    public function getIsActive(): ?bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): self
+    {
+        $this->is_active = $is_active;
+
+        return $this;
+    }
+
+	/**
+	 * @throws \Exception
+	 * @ORM\PreUpdate()
+	 */
+	public function updateDate(  ) {
+		$this->setUpdatedAt(new \DateTime());
+    }
 
 }

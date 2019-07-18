@@ -3,37 +3,80 @@
   <div class="container">
     <h1>Cart page</h1>
 
-    {{ dump(app.session.get('items')) }}
+    {#{{ dump(app.session.get('items')) }}#}
 
-    <table>
-      <thead>
-      <tr>
-        <th></th>
-        <th>Quantity</th>
-        <th>Item Name</th>
-        <th>Item Price</th>
-      </tr>
-      </thead>
+    {% if total <= 0 %}
+      <h3>Votre panier est vide</h3>
+      <a href="{{ path('homepage') }}">Home</a>
+    {% else %}
 
-      <tbody>
       {% if app.session.get('items') %}
         {% for item in app.session.get('items') %}
           {% if item.name is same as ('formule') %}
-            <tr>
-              <th>X</th>
-              <th>1</th>
-              <th>{{ item.title }}</th>
-              <th>{{ item.price }}</th>
-            </tr>
+            {{ dump(item) }}
+            <h3>{{ item.title }}</h3>
+
+            <div>
+              <h4>Base</h4>
+              <ul>
+                <li>{{ item.salade.base.name }}</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4>Ingredients</h4>
+              <ul>
+                {% for ingredient in item.salade.ingredients %}
+                  <li>{{ ingredient.name }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div>
+              <h4>Sauce</h4>
+              <ul>
+                <li>{{ item.salade.sauce.name }}</li>
+              </ul>
+            </div>
+
           {% endif %}
+          {#{{ dump(item.salade.base.name) }}#}
         {% endfor %}
       {% endif %}
-      </tbody>
-    </table>
 
-    <span>total price => {{ total }}</span>
 
-    <a href="/checkout" class="btn-large">checkout</a>
+      {#<table>#}
+        {#<thead>#}
+          {#<tr>#}
+            {#<th></th>#}
+            {#<th>Quantity</th>#}
+            {#<th>Item Name</th>#}
+            {#<th>Item Price</th>#}
+          {#</tr>#}
+        {#</thead>#}
+
+        {#<tbody>#}
+          {#{% if app.session.get('items') %}#}
+            {#{% for item in app.session.get('items') %}#}
+              {#{% if item.name is same as ('formule') %}#}
+                {#<tr>#}
+                  {#<th>X</th>#}
+                  {#<th>1</th>#}
+                  {#<th>{{ item.title }}</th>#}
+                  {#<th>{{ item.price|number_format(2) }}€</th>#}
+                {#</tr>#}
+              {#{% endif %}#}
+            {#{% endfor %}#}
+          {#{% endif %}#}
+        {#</tbody>#}
+      {#</table>#}
+
+      {#<span>total price => {{ total }}</span>#}
+
+      {#<a href="/checkout" class="btn-large">checkout</a>#}
+
+    {% endif %}
+
 
   </div>
 

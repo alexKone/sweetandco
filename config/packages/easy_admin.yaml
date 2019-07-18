@@ -45,9 +45,8 @@ easy_admin:
                     - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
             form:
                 fields:
-#                    - { property: 'id' }
                     - { property: 'name' }
-#                    - { property: 'filename', type: 'image', base_path: '%app.path.product_images%'}
+                    - { property: 'is_active' }
                     - { property: 'imageFile', type: 'vich_image' }
 
         Ingredient:
@@ -72,11 +71,14 @@ easy_admin:
                     - { property: 'id' }
                     - { property: 'name' }
                     - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'is_active' }
             form:
                 fields:
 #                    - { property: 'id' }
                     - { property: 'name' }
+                    - { property: 'is_active' }
                     - { property: 'imageFile', type: 'vich_image' }
+
 
 
         SubCategory:
@@ -89,12 +91,15 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'short_description' }
                     - { property: 'price' }
+                    - { property: 'is_active' }
                     - { property: 'imageFile', type: 'vich_image' }
             list:
                 fields:
                     - { property: 'id' }
                     - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
                     - { property: 'name' }
+                    - { property: 'is_active' }
+                    - { property: 'price' }
         Paninis:
             class: App\Entity\Panini
             form:
@@ -102,24 +107,28 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'short_description' }
                     - { property: 'price' }
+                    - { property: 'is_active' }
                     - { property: 'imageFile', type: 'vich_image' }
             list:
                 fields:
                     - { property: 'id' }
                     - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
                     - { property: 'name' }
+                    - { property: 'is_active' }
         Boissons:
             class: App\Entity\Boisson
             form:
                 fields:
                     - { property: 'name' }
                     - { property: 'price' }
+                    - { property: 'is_active' }
                     - { property: 'imageFile', type: 'vich_image' }
             list:
                 fields:
                     - { property: 'id' }
                     - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
                     - { property: 'name' }
+                    - { property: 'is_active' }
         Dessert:
             class: App\Entity\Dessert
             form:
@@ -127,8 +136,17 @@ easy_admin:
                     - { property: 'name' }
                     - { property: 'price' }
                     - { property: 'imageFile', type: 'vich_image' }
+                    - { property: 'is_active' }
             list:
                 fields:
                     - { property: 'id' }
                     - { property: 'filename', type: 'image', base_path: '%app.path.product_images%' }
                     - { property: 'name' }
+                    - { property: 'is_active' }
+
+        Customer:
+            class: App\Entity\Customer
+            list:
+                fields:
+                    - { property: 'id' }
+                    - { property: 'email' }

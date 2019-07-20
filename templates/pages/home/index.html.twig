@@ -2,12 +2,11 @@
 
 {% block body %}
 
-  <div class="container" tabindex="-1">
+  <div class="container content" tabindex="-1">
     <div class="row">
-      <div class="col-12 pt-0 text-center wrapper--sm">
-        <div class="numero--sm tahu text-primary h1">
-          Hello                    </div>
-        <h2 class="h1 display-4 titre-deco">
+      <div class="title-page col-12 pt-0 text-center wrapper--sm">
+        <div class="numero--sm tahu h1">Hello</div>
+        <h2 class="h1 titre-deco">
           <span>Choisissez votre formule</span>
         </h2>
       </div>
@@ -30,7 +29,8 @@
                 <!-- PRIX -->
                 <div class="col-md-2">
                   <p>
-                    <span class="woocommerce-Price-amount amount">{{ formule.price|number_format(2) }}<span class="woocommerce-Price-currencySymbol">€</span></span>
+                    {#<span class="woocommerce-Price-amount amount">{{ formule.price|number_format(2) }}<span class="woocommerce-Price-currencySymbol">€</span></span>#}
+                    <span class="woocommerce-Price-amount amount">{{ formule.price|number_format(2) }}€</span>
                   </p>
                 </div>
                 <!-- CHECK -->

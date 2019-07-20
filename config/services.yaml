@@ -28,6 +28,7 @@ services:
 
     App\EventSubscriber\RegistrationNotifySubscriber:
         $sender: '%app.notifications.email_sender%'
+        $templating: '@twig'
 
 #    app.email_handler:
 #        class: App\Service\CustomMailService

@@ -1,43 +1,5 @@
 {#{{ dump(app.session.get('items')) }}#}
-{#{% if app.user %}#}
-  {#{{ dump(app.user) }}#}
-  {#<a href="{{ path('app_logout') }}">logout</a>#}
-{#{% else %}#}
-  {#<a href="{{ path('app_login') }}">login</a>#}
-  {#<a href="{{ path('app_register') }}">register</a>#}
-{#{% endif %}#}
-{#<div class="navbar-fixed">#}
-  {#<nav>#}
-    {#<div class="nav-wrapper">#}
-      {#<a href="{{ path('homepage') }}" class="brand-logo">#}
-        {#<img src="{{ asset('build/images/logo.png') }}" alt="logo sweet & co">#}
-      {#</a>#}
-      {#<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>#}
-      {#<a href="#" class="right">#}
-      {#<span class="cart-button">#}
-        {#<i class="material-icons">shopping_cart</i>#}
-        {#<img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width: 24px;" />#}
-        {#<span class="cart-count">{{ app.session.get('items')|length }}</span>#}
-      {#</span>#}
-      {#</a>#}
-      {#<ul class="right hide-on-med-and-down">#}
-        {#<li data-anchor="formules"><a href="#">Les formules</a></li>#}
-        {#<li data-anchor="paninis"><a href="#">Les paninis</a></li>#}
-        {#<li data-anchor="bagels"><a href="#">Les Bagels</a></li>#}
-        {#<li data-anchor="boissons"><a href="#">Les boissons</a></li>#}
-        {#<li data-anchor="desserts"><a href="#">Les desserts</a></li>#}
-      {#</ul>#}
-    {#</div>#}
-  {#</nav>#}
-{#</div>#}
-{#<ul class="sidenav" id="mobile-demo">#}
-  {#<li><a href="{{ path('homepage') }}">Accueil</a></li>#}
-  {#<li><a href="sass.html">Les formules</a></li>#}
-  {#<li><a href="badges.html">Les Bagels</a></li>#}
-  {#<li><a href="collapsible.html">Les paninis</a></li>#}
-  {#<li><a href="collapsible.html">Les boissons</a></li>#}
-  {#<li><a href="collapsible.html">Les desserts</a></li>#}
-{#</ul>#}
+
 
 <div class="header">
   <button class="js-menu-show header__menu-toggle material-icons">menu</button>
@@ -45,9 +7,17 @@
   <a href="{{ path('homepage') }}">
     <img src="{{ asset('build/images/logo.png') }}" alt="">
   </a>
-  <a href="{{ path('cart') }}" class="cart">
+  {#<a href="{{ path('cart') }}" class="cart">#}
+    {#<button class="material-icons">shopping_cart</button>#}
+    {#<span style="color: #ffffff;">{{ app.session.get('items')|length }}</span>#}
+  {#</a>#}
+  <a href="{{ path('cart') }}" class="cart-button">
+    {#<img src="/assets/images/shopping-bag.svg" class="icon" alt="cart" title="cart" style="min-width: 24px;" />#}
     <button class="material-icons">shopping_cart</button>
-    <span style="color: #ffffff;">{{ app.session.get('items')|length }}</span>
+    {% if app.session.get('items') <= 0 %}
+    {% else %}
+      <span class="cart-count">{{ app.session.get('items')|length }}</span>
+    {% endif %}
   </a>
 </div>
 

@@ -5,15 +5,18 @@ namespace App\EventSubscriber;
 use App\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Twig\Environment;
 
 class RegistrationNotifySubscriber implements EventSubscriberInterface
 {
 	private $mailer;
 	private $sender;
+	private $templating;
 
-	public function __construct(\Swift_Mailer $mailer, $sender) {
+	public function __construct(\Swift_Mailer $mailer, $sender, Environment $templating) {
 		$this->mailer = $mailer;
 		$this->sender = $sender;
+		$this->templating = $templating;
 	}
 
 	/**
@@ -37,6 +40,7 @@ class RegistrationNotifySubscriber implements EventSubscriberInterface
 	public static function getSubscribedEvents() {
 		return [
 			Events::USER_REGISTERED => 'onUserRegistrated',
+			Events::PAYMENT_CONFIRMED => 'onPaymentValidated',
 		];
 	}
 
@@ -52,6 +56,21 @@ class RegistrationNotifySubscriber implements EventSubscriberInterface
 			->setFrom($this->sender)
 			->setBody($body, 'text/html')
 			;
+		$this->mailer->send($message);
+	}
+
+	public function onPaymentValidated( GenericEvent $event ) {
+
+		$subject = 'Votre commande a ete confirmee';
+		$message = (new \Swift_Message())
+			->setSubject($subject)
+			->setTo('mail@mail.com')
+			->setFrom($this->sender)
+			->setBody($this->templating->render('emails/payment_completed.mjml.twig', [
+				'lastName' => $event->getSubject()['lastName'],
+				'firstName' => $event->getSubject()['firstName']
+			]), 'text/html')
+		;
 		$this->mailer->send($message);
 	}
 }

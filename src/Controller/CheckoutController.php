@@ -41,6 +41,7 @@ class CheckoutController extends AbstractController
 
 
 		return $this->render('pages/checkout/index.html.twig', [
+			'total_price' => $total_price
 //			'intent_client_secret' => $intent->client_secret,
 //			'cart_value' => $intent->amount
 		]);

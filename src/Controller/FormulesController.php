@@ -61,10 +61,6 @@ class FormulesController extends AbstractController
 			$item = [
 				'name' => 'formule',
 				'title' => $formule->getName(),
-//				'id' => $id,
-//				'base' => $base,
-//				'ingredients' => $ingredients,
-//				'sauce' => $sauce,
 				'price' => $formule->getPrice(),
 				'salade' => $newSalade
 			];

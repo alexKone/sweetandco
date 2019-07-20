@@ -1,84 +1,152 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-  <div class="container">
-    <h1>Cart page</h1>
+  <section class="container cart">
+    <div class="order">
+      <h3>Votre commande</h3>
 
-    {#{{ dump(app.session.get('items')) }}#}
+      {#<div id="root"></div>#}
 
-    {% if total <= 0 %}
-      <h3>Votre panier est vide</h3>
-      <a href="{{ path('homepage') }}">Home</a>
-    {% else %}
-
-      {% if app.session.get('items') %}
-        {% for item in app.session.get('items') %}
+      <table class="table table-borderless col">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th class="product-name">Produit</th>
+          <th class="product-total">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key,item in app.session.get('items') %}
           {% if item.name is same as ('formule') %}
-            {{ dump(item) }}
-            <h3>{{ item.title }}</h3>
+            <tr class="cart_item component_container_table_item">
+              <td>
+                <a href="/cart?method=delete&id={{ key }}" class="clear_item" data-session-id="{{ key }}">X</a>
+              </td>
+              <td class="product-name">
+                {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
+              </td>
+              <td class="product-total">
+                <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
+              </td>
+            </tr>
 
-            <div>
-              <h4>Base</h4>
-              <ul>
-                <li>{{ item.salade.base.name }}</li>
-              </ul>
-            </div>
+            <tr class="cart_item component_table_item">
+              <td></td>
+              <td class="product-name">
+                <div class="component-name component_table_item_indent">
+                  <div class="component">
+                    <span class="component-Base component-type">Base :</span>
+                    <div class="component-Base component-detail">
+                      <p class="identation">{{ item.salade.base.name }}<strong class="composited_product_quantity"> × 1</strong></p>
+                    </div>
+                  </div>
+                </div>
+              </td>
 
-            <div>
-              <h4>Ingredients</h4>
-              <ul>
-                {% for ingredient in item.salade.ingredients %}
-                  <li>{{ ingredient.name }}</li>
-                {% endfor %}
-              </ul>
-            </div>
+              <td class="product-total">
+              </td>
+            </tr>
 
-            <div>
-              <h4>Sauce</h4>
-              <ul>
-                <li>{{ item.salade.sauce.name }}</li>
-              </ul>
-            </div>
+            <tr class="cart_item component_table_item bundle_table_item">
+              <td class="product-name">
+                <div class="component-name component_table_item_indent">
+                  <span class="component">
+                    <span class="component-Ingredients component-type">Ingrédients :</span>
+                  </span>
+                  &nbsp;
+                </div>
+              </td>
 
+              <td class="product-total">
+              </td>
+            </tr>
+              <td></td>
+            {% for ingredient in item.salade.ingredients %}
+              <tr class="cart_item bundled_table_item">
+                <td class="product-name">
+                  <div class="bundled-product-name bundled_table_item_indent">
+                    {{ ingredient.name }}&nbsp;
+                    <strong class="product-quantity">× 1</strong>
+                  </div>
+                </td>
+                <td class="product-total">
+                </td>
+              </tr>
+            {% endfor %}
+
+            <tr class="cart_item component_table_item">
+
+              <td class="product-name">
+                <div class="component-name component_table_item_indent">
+                  <div class="component">
+                    <span class="component-Sauce component-type">Sauce :</span>
+                    <div class="component-Sauce component-detail">
+                      <p class="identation">{{ item.salade.sauce.name }}<strong class="composited_product_quantity"> × 1</strong></p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <td class="product-total">
+              </td>
+            </tr>
+
+          {% else %}
+            <tr class="cart_item component_container_table_item">
+              <td class="product-name">
+                {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
+              </td>
+              <td class="product-total">
+                <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
+              </td>
+            </tr>
           {% endif %}
-          {#{{ dump(item.salade.base.name) }}#}
         {% endfor %}
-      {% endif %}
+        </tbody>
+        <tfoot>
+        <tr>
+          <td>SOUS-TOTAL</td>
+          <td class="amount">{{ total_price|number_format(2) }}€</td>
+        </tr>
+        <tr>
+          <td>TOTAL</td>
+          <td class="amount">{{ total_price|number_format(2) }}€</td>
+        </tr>
+        </tfoot>
+      </table>
 
+    </div>
+  </section>
+{% endblock %}
 
-      {#<table>#}
-        {#<thead>#}
-          {#<tr>#}
-            {#<th></th>#}
-            {#<th>Quantity</th>#}
-            {#<th>Item Name</th>#}
-            {#<th>Item Price</th>#}
-          {#</tr>#}
-        {#</thead>#}
+{% block javascripts %}
+  {{ parent() }}
+  {#{{ encore_entry_script_tags('react') }}#}
+  {#<script>#}
+    {#function getSessions() {#}
+      {#fetch('/api/currentSession')#}
+        {#.then(response => response.json())#}
+        {#.then(data => data.items)#}
+    {#}#}
+    {#function getSessionItem(id) {#}
+      {#fetch(`/api/currentSession/${id}`)#}
+        {#.then(res => res.json())#}
+        {#.then(data => console.log(data))#}
+    {#}#}
+    {#function removeSessionItem(id) {#}
+      {#fetch(`/api/currentSession/${id}`, {#}
+        {#method: 'DELETE'#}
+      {#})#}
+        {#.then(res => res.json())#}
+        {#.then(data => console.log(data))#}
+    {#}#}
 
-        {#<tbody>#}
-          {#{% if app.session.get('items') %}#}
-            {#{% for item in app.session.get('items') %}#}
-              {#{% if item.name is same as ('formule') %}#}
-                {#<tr>#}
-                  {#<th>X</th>#}
-                  {#<th>1</th>#}
-                  {#<th>{{ item.title }}</th>#}
-                  {#<th>{{ item.price|number_format(2) }}€</th>#}
-                {#</tr>#}
-              {#{% endif %}#}
-            {#{% endfor %}#}
-          {#{% endif %}#}
-        {#</tbody>#}
-      {#</table>#}
+    {#clearElts = [].slice.call(document.querySelectorAll('button.clear_item'));#}
+    {#clearElts.forEach(elt => elt.addEventListener('click', evt => {#}
+      {#removeSessionItem(elt.getAttribute('data-session-id'));#}
+      {#window.location.reload();#}
+    {#}))#}
 
-      {#<span>total price => {{ total }}</span>#}
+    {#const items = getSessions();#}
 
-      {#<a href="/checkout" class="btn-large">checkout</a>#}
-
-    {% endif %}
-
-
-  </div>
-
-
+  {#</script>#}
 {% endblock %}

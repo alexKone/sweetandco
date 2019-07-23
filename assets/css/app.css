@@ -6,9 +6,12 @@
 @import "_variables.css";
 @import "components/header.css";
 @import "components/sidenav.css";
+@import "formules.details.css";
 
 @import "pages/home.css";
 @import "pages/checkout.css";
+@import "pages/cart.css";
+
 
 * {
   box-sizing: border-box;
@@ -22,6 +25,10 @@
 }
 .text-primary {
   color: var(--green-color)!important;
+  font-weight: lighter;
+}
+.jumbotron {
+  background-color: inherit;
 }
 .content {
   margin-bottom: 56px;
@@ -90,7 +97,7 @@ input[type="radio"] {
 @media (min-width: 720px) {
   .content__items > ul {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 #main {
@@ -120,6 +127,13 @@ input[type="radio"] {
   }
 }
 
+.titre-deco {
+  text-align: center;
+  font-size: 26px;
+  line-height: 26px;
+  letter-spacing: 2px;
+  font-weight: lighter;
+}
 
 table,thead {
   border: 1px solid black;

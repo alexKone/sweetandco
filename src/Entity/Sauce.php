@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"sauce"}})
  * @ORM\Entity(repositoryClass="App\Repository\SauceRepository")
  * @Vich\Uploadable()
  */
@@ -103,7 +102,7 @@ class Sauce
 	 */
 	public function setFilename( ?string $filename ) {
       		$this->filename = $filename;
-      
+
       		return $this;
       	}
 
@@ -141,7 +140,7 @@ class Sauce
 	 */
 	public function setUpdatedAt( $updatedAt ) {
       		$this->updatedAt = $updatedAt;
-      
+
       		return $this;
       	}
 

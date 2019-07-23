@@ -10,7 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\BagelRepository")
  * @Vich\Uploadable()
  * @ORM\HasLifecycleCallbacks()

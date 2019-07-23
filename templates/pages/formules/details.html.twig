@@ -189,7 +189,7 @@
               {% for dessert in desserts %}
                 <li>
                   <label>
-                    <img loading="lazy" src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">
+                    {#<img loading="lazy" src="{{ vich_uploader_asset(sauce, 'imageFile') }}" alt="">#}
                     <input type="radio" name="dessert" value="{{ dessert.id }}" required>
                     <span>{{ dessert.name }}</span>
                   </label>
@@ -200,13 +200,83 @@
         </section>
       {% endif %}
 
-      <div style="margin-top: 100px"></div>
+      <section class="content addons">
+        <div class="title-page col-12 pt-0 text-center wrapper--sm">
+          <div class="numero--sm tahu h1">2</div>
+          <h2 class="h1 titre-deco">
+            <span>Au choix, les supplements...</span>
+          </h2>
+        </div>
 
-      <button type="submit">Valider</button>
+        {#<div class="content__title">#}
+        {#<span>2</span>#}
+        {#<h2>Choisissez vos ingredients...</h2>#}
+        {#</div>#}
+
+        <div>
+          <section id="options">
+            <details class="content__items" id="opt-base">
+              <summary>Les bases</summary>
+              <ul>
+                {% for base in bases %}
+                  <li>
+                    <label>
+                      <img loading="lazy" src="{{ vich_uploader_asset(base, 'imageFile') }}" alt="">
+                      <input type="radio" name="opt_base" value="{{ base.id }}">
+                      <span>{{ base.name }}</span>
+                      <span>2.30€</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              </ul>
+            </details>
+            <details class="content__items" id="opt-ingredients">
+              <summary>Les ingredients</summary>
+              <ul>
+                {% for ingredient in ingredients %}
+                  <li>
+                    <label>
+                      <img loading="lazy" src="{{ vich_uploader_asset(ingredient, 'imageFile') }}" alt="" />
+                      <input type="checkbox" name="opt_ingredient_{{ ingredient.id }}" value="{{ ingredient.id }}" />
+                      <span>{{ ingredient.name }}</span>
+                      <span>1.30€</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              </ul>
+            </details>
+            <details id="ch3">
+              <summary>Chapter III</summary>
+              Boethius falls back upon his present sense of misery. Philosophy reminds him of the brilliancy of his former fortunes.
+            </details>
+          </section>
+        </div>
+
+
+      </section>
+
+
+      <div class="row">
+        <div class="col px-0">
+          <label>
+            <input type="number" name="quantity" value="1" />
+          </label>
+        </div>
+        <div class="col px-0">
+          <button class="col px-0">validation</button>
+        </div>
+        {#<label>#}
+          {#<input type="number" name="quantity" value="1" />#}
+        {#</label>#}
+        {#<button type="submit">Valider</button>#}
+      </div>
 
     </form>
 
   {% endif %}
+
+  <aside id="result-order"></aside>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -246,12 +316,13 @@
       requestAnimationFrame(animation);
     }
 
-
     const baseElts = document.querySelectorAll('.base .content__items>ul>li');
     const sauceElts = document.querySelectorAll('.sauce .content__items>ul>li');
+    const boissonElts = document.querySelectorAll('.boisson .content__items>ul>li');
 
     addClass(baseElts, '.ingredients');
     addClass(sauceElts, '');
+    addClass(boissonElts, '');
 
     let nbIngredients = Number(document.querySelector('input[name="details"]').getAttribute('data-ingredients'));
     let inputElts = document.querySelectorAll('.ingredients input[type="checkbox"]');
@@ -279,7 +350,19 @@
       }
     }))
 
-
-
+  </script>
+  <script>
+    const resultElt = document.getElementById('result-order');
+    const btnBase = document.getElementById('js-base');
+    const btnIngredients = document.getElementById('js-ingredients');
+    btnBase.addEventListener('click', evt => {
+      document.getElementById('base-tmpl').style.display = 'block';
+      document.getElementById('ingredients-tmpl').style.display = 'none';
+    });
+    btnIngredients.addEventListener('click', evt => {
+      document.getElementById('base-tmpl').style.display = 'none';
+      document.getElementById('ingredients-tmpl').style.display = 'block';
+    });
+    // const base =
   </script>
 {% endblock %}

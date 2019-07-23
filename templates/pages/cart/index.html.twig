@@ -1,36 +1,32 @@
 {% extends 'base.html.twig' %}
 {% block body %}
   <section class="container cart">
-    <div class="order">
-      <h3>Votre commande</h3>
 
-      {#<div id="root"></div>#}
+    <div class="order">
+      <h3>Votre panier</h3>
 
       <table class="table table-borderless col">
         <thead>
         <tr>
-          <th>#</th>
-          <th class="product-name">Produit</th>
-          <th class="product-total">Total</th>
+          <th scope="col-10" class="product-name">Produit</th>
+          <th scope="col-2" class="product-total">Total</th>
         </tr>
         </thead>
         <tbody>
-        {% for key,item in app.session.get('items') %}
+        {% for key, item in app.session.get('items') %}
           {% if item.name is same as ('formule') %}
             <tr class="cart_item component_container_table_item">
-              <td>
-                <a href="/cart?method=delete&id={{ key }}" class="clear_item" data-session-id="{{ key }}">X</a>
-              </td>
               <td class="product-name">
                 {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
               </td>
               <td class="product-total">
                 <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
+                <a href="/cart/?method=delete&id={{ key }}">X</a>
               </td>
             </tr>
 
             <tr class="cart_item component_table_item">
-              <td></td>
+
               <td class="product-name">
                 <div class="component-name component_table_item_indent">
                   <div class="component">
@@ -59,7 +55,7 @@
               <td class="product-total">
               </td>
             </tr>
-              <td></td>
+
             {% for ingredient in item.salade.ingredients %}
               <tr class="cart_item bundled_table_item">
                 <td class="product-name">
@@ -115,6 +111,8 @@
       </table>
 
     </div>
+
+    <a href="{{ path('checkout') }}">valider</a>
   </section>
 {% endblock %}
 

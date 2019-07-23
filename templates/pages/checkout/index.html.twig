@@ -6,7 +6,7 @@
 
   {#{{ dump(app.session.get('items')) }}#}
 
-  <section class="checkout container">
+  <section class="checkout">
     <div class="title-page col-12 pt-0 text-center wrapper--sm">
       <div class="numero--sm tahu h1">Checkout</div>
       <h2 class="h1 titre-deco">
@@ -18,155 +18,86 @@
       <p>Le retrait des commandes est actuellement fermé. Passez retirer votre commande demain à partir de 11h30.</p>
     </div>
 
-    <div class="billing-fields">
-      <h3 class="h4">Détails de facturation</h3>
-      <div>
-        <div>
-          <label>
-            <span>Prenom</span>
-            <input type="text" />
-          </label>
-          <label>
-            <span>Nom</span>
-            <input type="text" />
-          </label>
-        </div>
-        <div>
-          <label>
-            <span>Telephone</span>
-            <input type="tel" name="tel" />
-          </label>
-        </div>
-        <div>
-          <label>
-            <span>Adresse mail</span>
-            <input type="email" name="email" />
-          </label>
-        </div>
-      </div>
-    </div>
+    <form method="post" action="{{ path('app_checkout_validation') }}">
 
-    <div class="mode-delivery">
-      <h3>Mode de livraison</h3>
-      <div class="delivery">
-        <button>Retrait</button>
-        <button>livraison</button>
+      <div class="mode-delivery">
+        <h3>Mode de livraison</h3>
+        <div class="delivery">
+          <button id="btn-pickup">Retrait</button>
+          <button id="btn-delivery">livraison</button>
+        </div>
+
       </div>
 
-    </div>
-    <div></div>
+      <section id="tmpl"></section>
 
+      <div class="order">
+        <h3>Votre commande</h3>
 
-
-    <div class="hour-delivery">
-      <h3>Horaire de retrait</h3>
-      <div>
-        <p>
-          <label>
-            <input type="radio" name="hour_delivery" required />
-            <span>de 11h30 a 12h</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="hour_delivery" required />
-            <span>de 12h a 12h30</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="hour_delivery" required />
-            <span>de 12h30 a 13h</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="hour_delivery" required />
-            <span>de 13h a 13h30</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="hour_delivery" required />
-            <span>de 13h30 a 14h</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="hour_delivery" required />
-            <span>de 14h a 14h30</span>
-          </label>
-        </p>
-      </div>
-    </div>
-
-    <div class="order">
-      <h3>Votre commande</h3>
-
-      <table class="table table-borderless col">
-        <thead>
-          <tr>
-            <th scope="col-10" class="product-name">Produit</th>
-            <th scope="col-2" class="product-total">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for item in app.session.get('items') %}
-          {% if item.name is same as ('formule') %}
-            <tr class="cart_item component_container_table_item">
-              <td class="product-name">
-                {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
-              </td>
-              <td class="product-total">
-                <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
-              </td>
+        <table class="table table-borderless col">
+          <thead>
+            <tr>
+              <th scope="col-10" class="product-name">Produit</th>
+              <th scope="col-2" class="product-total">Total</th>
             </tr>
-
-            <tr class="cart_item component_table_item">
-
+          </thead>
+          <tbody>
+          {% for item in app.session.get('items') %}
+            {% if item.name is same as ('formule') %}
+              <tr class="cart_item component_container_table_item">
                 <td class="product-name">
-                  <div class="component-name component_table_item_indent">
-                    <div class="component">
-                      <span class="component-Base component-type">Base :</span>
-                      <div class="component-Base component-detail">
-                        <p class="identation">{{ item.salade.base.name }}<strong class="composited_product_quantity"> × 1</strong></p>
+                  {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
+                </td>
+                <td class="product-total">
+                  <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
+                </td>
+              </tr>
+
+              <tr class="cart_item component_table_item">
+
+                  <td class="product-name">
+                    <div class="component-name component_table_item_indent">
+                      <div class="component">
+                        <span class="component-Base component-type">Base :</span>
+                        <div class="component-Base component-detail">
+                          <p class="identation">{{ item.salade.base.name }}<strong class="composited_product_quantity"> × 1</strong></p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
+                  </td>
 
-              <td class="product-total">
-              </td>
-            </tr>
-
-            <tr class="cart_item component_table_item bundle_table_item">
-              <td class="product-name">
-                <div class="component-name component_table_item_indent">
-                  <span class="component">
-                    <span class="component-Ingredients component-type">Ingrédients :</span>
-                  </span>
-                  &nbsp;
-                </div>
-              </td>
-
-              <td class="product-total">
-              </td>
-            </tr>
-
-            {% for ingredient in item.salade.ingredients %}
-              <tr class="cart_item bundled_table_item">
-                <td class="product-name">
-                  <div class="bundled-product-name bundled_table_item_indent">
-                    {{ ingredient.name }}&nbsp;
-                    <strong class="product-quantity">× 1</strong>
-                  </div>
-                </td>
                 <td class="product-total">
                 </td>
               </tr>
-            {% endfor %}
 
-            <tr class="cart_item component_table_item">
+              <tr class="cart_item component_table_item bundle_table_item">
+                <td class="product-name">
+                  <div class="component-name component_table_item_indent">
+                    <span class="component">
+                      <span class="component-Ingredients component-type">Ingrédients :</span>
+                    </span>
+                    &nbsp;
+                  </div>
+                </td>
+
+                <td class="product-total">
+                </td>
+              </tr>
+
+              {% for ingredient in item.salade.ingredients %}
+                <tr class="cart_item bundled_table_item">
+                  <td class="product-name">
+                    <div class="bundled-product-name bundled_table_item_indent">
+                      {{ ingredient.name }}&nbsp;
+                      <strong class="product-quantity">× 1</strong>
+                    </div>
+                  </td>
+                  <td class="product-total">
+                  </td>
+                </tr>
+              {% endfor %}
+
+              <tr class="cart_item component_table_item">
 
                 <td class="product-name">
                   <div class="component-name component_table_item_indent">
@@ -179,37 +110,71 @@
                   </div>
                 </td>
 
-              <td class="product-total">
-              </td>
+
+              {#{% if item.addons %}#}
+                {#{% for addonsIngredient in item.addons.ingredients %}#}
+                  {#<tr class="cart_item component_table_item">#}
+
+                    {#<td class="product-name">#}
+                      {#<div class="component-name component_table_item_indent">#}
+                        {#<div class="component">#}
+                          {#<span class="component-Sauce component-type">Sauce :</span>#}
+
+                          {#<div class="component-Sauce component-detail">#}
+                            {#<p class="identation">Olive Citron<strong class="composited_product_quantity"> × 1</strong></p>#}
+                          {#</div>#}
+                        {#</div>#}
+                      {#</div>#}
+                    {#</td>#}
+
+
+                  {#</tr>#}
+                {#{% endfor %}#}
+              {#{% endif %}#}
+
+                <td class="product-total">
+                </td>
+              </tr>
+
+            {% else %}
+              <tr class="cart_item component_container_table_item">
+                <td class="product-name">
+                  {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
+                </td>
+                <td class="product-total">
+                  <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>SOUS-TOTAL</td>
+              <td class="amount">{{ total_price|number_format(2) }}€</td>
             </tr>
-
-          {% else %}
-            <tr class="cart_item component_container_table_item">
-              <td class="product-name">
-                {{ item.title }}&nbsp;<strong class="product-quantity">× 1</strong>
-              </td>
-              <td class="product-total">
-                <span class="woocommerce-Price-amount amount">{{ item.price|number_format(2) }}€</span>
-              </td>
+            <tr>
+              <td>TOTAL</td>
+              <td class="amount">{{ total_price|number_format(2) }}€</td>
             </tr>
-          {% endif %}
-        {% endfor %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>SOUS-TOTAL</td>
-            <td class="amount">{{ total_price|number_format(2) }}€</td>
-          </tr>
-          <tr>
-            <td>TOTAL</td>
-            <td class="amount">{{ total_price|number_format(2) }}€</td>
-          </tr>
-        </tfoot>
-      </table>
+          </tfoot>
+        </table>
 
-    </div>
+      </div>
 
-    <div class="payment-gateway"></div>
+    {#<div class="payment-gateway">#}
+
+      {#<input id="cardholder-name" type="hidden" value="{{ cart_value }}" />#}
+      {#<!-- placeholder for Elements -->#}
+      {#<div id="card-element"></div>#}
+      {#<button id="card-button" data-secret="{{ intent_client_secret }}">#}
+      {#Submit Payment#}
+      {#</button>#}
+    {#</div>#}
+
+      <button type="submit">VALIDER</button>
+
+    </form>
 
   </section>
 
@@ -251,24 +216,14 @@
 
   {#<input id="date" type="text" class="datepicker" />#}
 
-  {#<form>#}
-    {#<label>#}
-      {#<input type="text" name="username" placeholder="username" />#}
-    {#</label>#}
-    {#<label>#}
-      {#<input type="password" name="password" placeholder="password" />#}
-    {#</label>#}
-  {#</form>#}
-
-  {#<a href="{{ path('order') }}">Order</a>#}
-
-  {#<form method="post" action="{{ path('order') }}">#}
-    {#<button type="submit">valider panier</button>#}
-  {#</form>#}
 
 {#{% endblock %}#}
 
 
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('checkout') }}
+{% endblock %}
 {#{% block javascripts %}#}
   {#{{ parent() }}#}
 
@@ -284,7 +239,7 @@
     {#var cardButton = document.getElementById('card-button');#}
     {#var clientSecret = cardButton.dataset.secret;#}
 
-    {#cardButton.addEventListener('click', function(ev) {#}
+    {#cardButton.addEventListener('click', function(evt) {#}
       {#stripe.handleCardPayment(#}
         {#clientSecret, cardElement, {#}
           {#payment_method_data: {#}

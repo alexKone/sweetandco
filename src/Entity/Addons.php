@@ -3,60 +3,66 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\ListSubCategories;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SubCategoryRepository")
+ * @ApiResource()
+ * @ORM\Entity(repositoryClass="App\Repository\AddonsRepository")
  */
-class SubCategory
+class Addons
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"subCategory"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"ingredient", "subCategory"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Base", inversedBy="addons")
      */
-    private $name;
+    private $bases;
 
     /**
-     * @Groups({"subCategory"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Ingredient", mappedBy="subCategory")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient", inversedBy="addons")
      */
     private $ingredients;
 
     public function __construct()
     {
+        $this->bases = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }
 
-    public function __toString() {
-		return $this->getName();
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
-	public function getId(): ?int
-                   {
-                       return $this->id;
-                   }
-
-    public function getName(): ?string
+    /**
+     * @return Collection|Base[]
+     */
+    public function getBases(): Collection
     {
-        return $this->name;
+        return $this->bases;
     }
 
-    public function setName(string $name): self
+    public function addBasis(Base $basis): self
     {
-        $this->name = $name;
+        if (!$this->bases->contains($basis)) {
+            $this->bases[] = $basis;
+        }
+
+        return $this;
+    }
+
+    public function removeBasis(Base $basis): self
+    {
+        if ($this->bases->contains($basis)) {
+            $this->bases->removeElement($basis);
+        }
 
         return $this;
     }
@@ -73,7 +79,6 @@ class SubCategory
     {
         if (!$this->ingredients->contains($ingredient)) {
             $this->ingredients[] = $ingredient;
-            $ingredient->setSubCategory($this);
         }
 
         return $this;
@@ -83,13 +88,8 @@ class SubCategory
     {
         if ($this->ingredients->contains($ingredient)) {
             $this->ingredients->removeElement($ingredient);
-            // set the owning side to null (unless already changed)
-            if ($ingredient->getSubCategory() === $this) {
-                $ingredient->setSubCategory(null);
-            }
         }
 
         return $this;
     }
-
 }

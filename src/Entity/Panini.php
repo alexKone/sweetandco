@@ -10,7 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\PaniniRepository")
  * @Vich\Uploadable()
  */
@@ -119,7 +118,7 @@ class Panini
 	public function setFilename(?string $filename): self
             	{
             		$this->filename = $filename;
-      
+
             		return $this;
             	}
 
@@ -150,7 +149,7 @@ class Panini
 	public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
             	{
             		$this->updatedAt = $updatedAt;
-      
+
             		return $this;
             	}
 

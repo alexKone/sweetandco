@@ -10,17 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\CreateSaladeBase;
 
 /**
- * @ApiResource(
- *     itemOperations={
- *          "get",
- *          "post_base"={
- *              "method"="POST",
- *              "path"="/salades/{id}/base",
- *              "controller"=CreateSaladeBase::class,
- *          }
- *     },
- *     normalizationContext={"groups"={"salade"}}
- * )
  * @ORM\Entity(repositoryClass="App\Repository\SaladeRepository")
  */
 class Salade
@@ -35,19 +24,19 @@ class Salade
 
     /**
      * @Groups({"salade"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Base", inversedBy="salades")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Base", inversedBy="salades", cascade={"persist"})
      */
     private $base;
 
     /**
      * @Groups({"salade"})
-     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient", inversedBy="salades")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient", inversedBy="salades", cascade={"persist"})
      */
     private $ingredients;
 
     /**
      * @Groups({"salade"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sauce", inversedBy="salades")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sauce", inversedBy="salades", cascade={"persist"})
      */
     private $sauce;
 
@@ -62,6 +51,16 @@ class Salade
      */
     private $formule;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billing", inversedBy="salade")
+     */
+    private $billing;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Addons", cascade={"persist", "remove"})
+     */
+    private $addons;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -73,9 +72,9 @@ class Salade
     }
 
 	public function getId(): ?int
-             {
-                 return $this->id;
-             }
+                               {
+                                   return $this->id;
+                               }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -147,6 +146,30 @@ class Salade
     public function setFormule(?Formule $formule): self
     {
         $this->formule = $formule;
+
+        return $this;
+    }
+
+    public function getBilling(): ?Billing
+    {
+        return $this->billing;
+    }
+
+    public function setBilling(?Billing $billing): self
+    {
+        $this->billing = $billing;
+
+        return $this;
+    }
+
+    public function getAddons(): ?Addons
+    {
+        return $this->addons;
+    }
+
+    public function setAddons(?Addons $addons): self
+    {
+        $this->addons = $addons;
 
         return $this;
     }

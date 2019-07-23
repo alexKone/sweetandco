@@ -1,8 +1,8 @@
 framework:
     secret: '%env(APP_SECRET)%'
-    templating:
-        engines:
-            - twig
+#    fragments:
+#        hinclude_default_template: hinclude.html.twig
+#
     #csrf_protection: true
     #http_method_override: true
 
@@ -15,6 +15,6 @@ framework:
         cookie_samesite: lax
 
     #esi: true
-    #fragments: true
+    fragments: true
     php_errors:
         log: true

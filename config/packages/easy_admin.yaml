@@ -7,6 +7,12 @@ easy_admin:
 #        - App\Entity\Sauce
     site_name: 'Sweet & CO.'
     entities:
+        Billing:
+            class: App\Entity\Billing
+            list:
+                - { property: 'id' }
+                - { property: 'price' }
+
         Formule:
             class: App\Entity\Formule
             list:

@@ -1,0 +1,16 @@
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  text-align: center;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+section#options details ul {
+  /*display: grid;*/
+  /*grid-template-columns: repeat(2, 1fr);*/
+  margin: 25px 0;
+}

@@ -17,7 +17,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"formule"}})
- * @ApiFilter(BooleanFilter::class, properties={"has_bagel", "has_panini", "has_boisson", "has_dessert"})
  * @ORM\Entity(repositoryClass="App\Repository\FormuleRepository")
  * @Vich\Uploadable()
  * @ORM\HasLifecycleCallbacks()
@@ -143,104 +142,110 @@ class Formule {
 	 */
 	private $is_active = true;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Billing", mappedBy="formules")
+     */
+    private $billings;
+
 	public function __construct() {
-            		$this->createdAt = new \DateTime();
-            		$this->orders = new ArrayCollection();
-            		$this->salade = new ArrayCollection();
-              $this->salades = new ArrayCollection();
-            	}
+         		$this->createdAt = new \DateTime();
+         		$this->orders = new ArrayCollection();
+         		$this->salade = new ArrayCollection();
+         		$this->salades = new ArrayCollection();
+         		$this->billings = new ArrayCollection();
+         	}
 
 	public function getId(): ?int {
-                                                         		return $this->id;
-                                                         	}
+         		return $this->id;
+         	}
 
 	public function getName(): ?string {
-                                                         		return $this->name;
-                                                         	}
+                 return $this->name;
+         	}
 
 	public function setName( string $name ): self {
-                                                         		$this->name = $name;
+                                                                                 		$this->name = $name;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getDescription(): ?string {
-                                                         		return $this->description;
-                                                         	}
+                                                                                 		return $this->description;
+                                                                                 	}
 
 	public function setDescription( ?string $description ): self {
-                                                         		$this->description = $description;
+                                                                                 		$this->description = $description;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getShortDescription(): ?string {
-                                                         		return $this->short_description;
-                                                         	}
+                                                                                 		return $this->short_description;
+                                                                                 	}
 
 	public function setShortDescription( ?string $short_description ): self {
-                                                         		$this->short_description = $short_description;
+                                                                                 		$this->short_description = $short_description;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getLimitBase(): ?int {
-                                                         		return $this->limit_base;
-                                                         	}
+                                                                                 		return $this->limit_base;
+                                                                                 	}
 
 	public function setLimitBase( int $limit_base ): self {
-                                                         		$this->limit_base = $limit_base;
+                                                                                 		$this->limit_base = $limit_base;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getLimitIngredient(): ?int {
-                                                         		return $this->limit_ingredient;
-                                                         	}
+                                                                                 		return $this->limit_ingredient;
+                                                                                 	}
 
 	public function setLimitIngredient( int $limit_ingredient ): self {
-                                                         		$this->limit_ingredient = $limit_ingredient;
+                                                                                 		$this->limit_ingredient = $limit_ingredient;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getLimitSauce(): ?int {
-                                                         		return $this->limit_sauce;
-                                                         	}
+                                                                                 		return $this->limit_sauce;
+                                                                                 	}
 
 	public function setLimitSauce( int $limit_sauce ): self {
-                                                         		$this->limit_sauce = $limit_sauce;
+                                                                                 		$this->limit_sauce = $limit_sauce;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getHasBagel(): ?bool {
-                                                         		return $this->has_bagel;
-                                                         	}
+                                                                                 		return $this->has_bagel;
+                                                                                 	}
 
 	public function setHasBagel( bool $has_bagel ): self {
-                                                         		$this->has_bagel = $has_bagel;
+                                                                                 		$this->has_bagel = $has_bagel;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getHasPanini(): ?bool {
-                                                         		return $this->has_panini;
-                                                         	}
+                                                                                 		return $this->has_panini;
+                                                                                 	}
 
 	public function setHasPanini( bool $has_panini ): self {
-                                                         		$this->has_panini = $has_panini;
+                                                                                 		$this->has_panini = $has_panini;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 
 	/**
 	 * @return string|null
 	 */
 	public function getFormuleFilename(): ?string {
-                                                         		return $this->formuleFilename;
-                                                         	}
+                                                                                 		return $this->formuleFilename;
+                                                                                 	}
 
 	/**
 	 * @param string|null $filename
@@ -248,17 +253,17 @@ class Formule {
 	 * @return Formule
 	 */
 	public function setFormuleFilename( ?string $filename ) {
-                                                         		$this->formuleFilename = $filename;
+                                                                                 		$this->formuleFilename = $filename;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-                                                         		return $this->imageFile;
-                                                         	}
+                                                                                 		return $this->imageFile;
+                                                                                 	}
 
 	/**
 	 * @param File|null $imageFile
@@ -267,18 +272,18 @@ class Formule {
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile = null ): void {
-                                                         		$this->imageFile = $imageFile;
-                                                         		if ( $imageFile ) {
-                                                         			$this->updatedAt = new \DateTime( 'now' );
-                                                         		}
-                                                         	}
+                                                                                 		$this->imageFile = $imageFile;
+                                                                                 		if ( $imageFile ) {
+                                                                                 			$this->updatedAt = new \DateTime( 'now' );
+                                                                                 		}
+                                                                                 	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getUpdatedAt() {
-                                                         		return $this->updatedAt;
-                                                         	}
+                                                                                 		return $this->updatedAt;
+                                                                                 	}
 
 	/**
 	 * @param mixed $updatedAt
@@ -286,40 +291,40 @@ class Formule {
 	 * @return Formule
 	 */
 	public function setUpdatedAt( $updatedAt ) {
-                                                         		$this->updatedAt = $updatedAt;
+                                                                                 		$this->updatedAt = $updatedAt;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getCreatedAt(): ?\DateTimeInterface {
-                                                         		return $this->createdAt;
-                                                         	}
+                                                                                 		return $this->createdAt;
+                                                                                 	}
 
 	public function setCreatedAt( \DateTimeInterface $createdAt ): self {
-                                                         		$this->createdAt = $createdAt;
+                                                                                 		$this->createdAt = $createdAt;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getPrice(): ?float {
-                                                         		return $this->price;
-                                                         	}
+                                                                                 		return $this->price;
+                                                                                 	}
 
 	public function setPrice( float $price ): self {
-                                                         		$this->price = $price;
+                                                                                 		$this->price = $price;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
 	public function getSlug(): ?string {
-                                                         		return $this->slug;
-                                                         	}
+                                                                                 		return $this->slug;
+                                                                                 	}
 
 	public function setSlug( ?string $slug ): self {
-                                                         		$this->slug = $slug;
+                                                                                 		$this->slug = $slug;
 
-                                                         		return $this;
-                                                         	}
+                                                                                 		return $this;
+                                                                                 	}
 
     public function getHasBoisson(): ?bool
     {
@@ -401,6 +406,35 @@ class Formule {
 	 * @ORM\PreUpdate()
 	 */
 	public function updateDate(  ) {
-		$this->setUpdatedAt(new DateTime());
-	}
+                        		$this->setUpdatedAt(new DateTime());
+                        	}
+
+    /**
+     * @return Collection|Billing[]
+     */
+    public function getBillings(): Collection
+    {
+        return $this->billings;
+    }
+
+    public function addBilling(Billing $billing): self
+    {
+        if (!$this->billings->contains($billing)) {
+            $this->billings[] = $billing;
+            $billing->addFormule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilling(Billing $billing): self
+    {
+        if ($this->billings->contains($billing)) {
+            $this->billings->removeElement($billing);
+            $billing->removeFormule($this);
+        }
+
+        return $this;
+    }
+
 }

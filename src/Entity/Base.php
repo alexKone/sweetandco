@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"base"}})
  * @ORM\Entity(repositoryClass="App\Repository\BaseRepository")
  * @Vich\Uploadable()
  * @ORM\HasLifecycleCallbacks()
@@ -64,14 +63,20 @@ class Base
      */
     private $salades;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Addons", mappedBy="bases")
+     */
+    private $addons;
+
     public function __construct()
     {
         $this->salades = new ArrayCollection();
+        $this->addons = new ArrayCollection();
     }
 
 	public function __toString(  ) {
-   		return $this->name;
-       }
+                  		return $this->name;
+                      }
 
     public function getId(): ?int
     {
@@ -125,8 +130,8 @@ class Base
 	 * @return string|null
 	 */
 	public function getFilename(): ?string {
-   		return $this->filename;
-   	}
+                  		return $this->filename;
+                  	}
 
 	/**
 	 * @param string|null $filename
@@ -134,17 +139,17 @@ class Base
 	 * @return Base
 	 */
 	public function setFilename( ?string $filename ) {
-   		$this->filename = $filename;
-
-   		return $this;
-   	}
+                  		$this->filename = $filename;
+               
+                  		return $this;
+                  	}
 
 	/**
 	 * @return File|null
 	 */
 	public function getImageFile(): ?File {
-   		return $this->imageFile;
-   	}
+                  		return $this->imageFile;
+                  	}
 
 	/**
 	 * @param File|null $imageFile
@@ -153,18 +158,18 @@ class Base
 	 * @throws \Exception
 	 */
 	public function setImageFile( ?File $imageFile = null ): void {
-   		$this->imageFile = $imageFile;
-   		if ($imageFile) {
-   			$this->updatedAt = new \DateTime('now');
-   		}
-   	}
+                  		$this->imageFile = $imageFile;
+                  		if ($imageFile) {
+                  			$this->updatedAt = new \DateTime('now');
+                  		}
+                  	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getUpdatedAt() {
-   		return $this->updatedAt;
-   	}
+                  		return $this->updatedAt;
+                  	}
 
 	/**
 	 * @param mixed $updatedAt
@@ -172,17 +177,17 @@ class Base
 	 * @return Base
 	 */
 	public function setUpdatedAt( $updatedAt ) {
-   		$this->updatedAt = $updatedAt;
-
-   		return $this;
-   	}
+                  		$this->updatedAt = $updatedAt;
+               
+                  		return $this;
+                  	}
 
 	/**
 	 * @return bool
 	 */
 	public function isActive(): bool {
-   		return $this->is_active;
-   	}
+                  		return $this->is_active;
+                  	}
 
 	/**
 	 * @param bool $is_active
@@ -190,10 +195,10 @@ class Base
 	 * @return Base
 	 */
 	public function setIsActive( bool $is_active ): Base {
-   		$this->is_active = $is_active;
-
-   		return $this;
-   	}
+                  		$this->is_active = $is_active;
+               
+                  		return $this;
+                  	}
 
     public function getIsActive(): ?bool
     {
@@ -205,6 +210,34 @@ class Base
 	 * @ORM\PreUpdate()
 	 */
 	public function updateDate(  ) {
-		$this->setUpdatedAt(new \DateTime());
+               		$this->setUpdatedAt(new \DateTime());
+                   }
+
+    /**
+     * @return Collection|Addons[]
+     */
+    public function getAddons(): Collection
+    {
+        return $this->addons;
+    }
+
+    public function addAddon(Addons $addon): self
+    {
+        if (!$this->addons->contains($addon)) {
+            $this->addons[] = $addon;
+            $addon->addBasis($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddon(Addons $addon): self
+    {
+        if ($this->addons->contains($addon)) {
+            $this->addons->removeElement($addon);
+            $addon->removeBasis($this);
+        }
+
+        return $this;
     }
 }
